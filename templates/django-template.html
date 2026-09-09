@@ -1,0 +1,779 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ShopEase - Online Shopping</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f5f5f5;
+            color: #333;
+        }
+
+        /* Header Styles */
+        header {
+            background-color: #fff;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-top {
+            background-color: #2c3e50;
+            color: white;
+            padding: 8px 0;
+            text-align: center;
+            font-size: 14px;
+        }
+
+        .header-main {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 50px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .logo {
+            font-size: 28px;
+            font-weight: bold;
+            color: #e74c3c;
+            text-decoration: none;
+        }
+
+        .search-bar {
+            flex: 1;
+            margin: 0 40px;
+            position: relative;
+        }
+
+        .search-bar input {
+            width: 100%;
+            padding: 12px 20px;
+            border: 2px solid #ddd;
+            border-radius: 25px;
+            font-size: 16px;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+
+        .search-bar input:focus {
+            border-color: #e74c3c;
+        }
+
+        .search-bar button {
+            position: absolute;
+            right: 5px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: #e74c3c;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 20px;
+            cursor: pointer;
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 25px;
+            align-items: center;
+        }
+
+        .header-actions a {
+            color: #333;
+            text-decoration: none;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            font-size: 12px;
+        }
+
+        .header-actions i {
+            font-size: 24px;
+            margin-bottom: 5px;
+        }
+
+        .cart-count {
+            background-color: #e74c3c;
+            color: white;
+            border-radius: 50%;
+            padding: 2px 8px;
+            font-size: 12px;
+            position: absolute;
+            top: -8px;
+            right: -8px;
+        }
+
+        /* Navigation */
+        nav {
+            background-color: #fff;
+            border-top: 1px solid #eee;
+            padding: 10px 50px;
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            gap: 30px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: #333;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        nav a:hover {
+            color: #e74c3c;
+        }
+
+        /* Main Content */
+        main {
+            max-width: 1400px;
+            margin: 30px auto;
+            padding: 0 50px;
+        }
+
+        /* Hero Banner */
+        .hero-banner {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 60px;
+            border-radius: 15px;
+            margin-bottom: 40px;
+            text-align: center;
+        }
+
+        .hero-banner h1 {
+            font-size: 40px;
+            margin-bottom: 15px;
+        }
+
+        .hero-banner p {
+            font-size: 18px;
+            margin-bottom: 25px;
+        }
+
+        .hero-banner button {
+            background-color: white;
+            color: #667eea;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 25px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+
+        .hero-banner button:hover {
+            transform: scale(1.05);
+        }
+
+        /* Product Grid */
+        .section-title {
+            font-size: 28px;
+            margin-bottom: 25px;
+            color: #2c3e50;
+        }
+
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+
+        .product-card {
+            background-color: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 20px rgba(0,0,0,0.15);
+        }
+
+        .product-image {
+            width: 100%;
+            height: 200px;
+            background-color: #f0f0f0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .product-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .product-badge {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background-color: #e74c3c;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        .product-details {
+            padding: 20px;
+        }
+
+        .product-name {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: #2c3e50;
+        }
+
+        .product-category {
+            color: #7f8c8d;
+            font-size: 14px;
+            margin-bottom: 10px;
+        }
+
+        .product-price {
+            font-size: 22px;
+            font-weight: bold;
+            color: #e74c3c;
+            margin-bottom: 15px;
+        }
+
+        .original-price {
+            text-decoration: line-through;
+            color: #95a5a6;
+            font-size: 16px;
+            margin-left: 10px;
+        }
+
+        .product-rating {
+            color: #f39c12;
+            margin-bottom: 15px;
+        }
+
+        .add-to-cart {
+            width: 100%;
+            padding: 12px;
+            background-color: #2c3e50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .add-to-cart:hover {
+            background-color: #e74c3c;
+        }
+
+        /* Cart Summary */
+        .cart-summary {
+            background-color: white;
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+            margin-bottom: 40px;
+        }
+
+        .cart-item {
+            display: flex;
+            align-items: center;
+            padding: 20px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .cart-item-image {
+            width: 80px;
+            height: 80px;
+            background-color: #f0f0f0;
+            border-radius: 5px;
+            margin-right: 20px;
+        }
+
+        .cart-item-details {
+            flex: 1;
+        }
+
+        .cart-item-name {
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .cart-item-price {
+            color: #e74c3c;
+            font-weight: bold;
+        }
+
+        .cart-item-quantity {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .quantity-btn {
+            width: 30px;
+            height: 30px;
+            border: 1px solid #ddd;
+            background-color: white;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .cart-total {
+            text-align: right;
+            margin-top: 20px;
+        }
+
+        .checkout-btn {
+            background-color: #e74c3c;
+            color: white;
+            padding: 15px 40px;
+            border: none;
+            border-radius: 25px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 15px;
+            transition: background-color 0.3s;
+        }
+
+        .checkout-btn:hover {
+            background-color: #c0392b;
+        }
+
+        /* Forms */
+        .form-container {
+            background-color: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: #2c3e50;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            border-color: #e74c3c;
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        /* Footer */
+        footer {
+            background-color: #2c3e50;
+            color: white;
+            padding: 50px 50px 20px;
+            margin-top: 50px;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            max-width: 1400px;
+            margin: 0 auto 30px;
+        }
+
+        .footer-section h3 {
+            margin-bottom: 20px;
+            color: #e74c3c;
+        }
+
+        .footer-section ul {
+            list-style: none;
+        }
+
+        .footer-section ul li {
+            margin-bottom: 10px;
+        }
+
+        .footer-section a {
+            color: #ecf0f1;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer-section a:hover {
+            color: #e74c3c;
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid #34495e;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .header-main {
+                flex-direction: column;
+                padding: 15px 20px;
+            }
+
+            .search-bar {
+                margin: 20px 0;
+                width: 100%;
+            }
+
+            nav ul {
+                flex-wrap: wrap;
+                gap: 15px;
+            }
+
+            main {
+                padding: 0 20px;
+            }
+
+            .product-grid {
+                grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header Top Bar -->
+    <div class="header-top">
+        Free shipping on orders over $50 | 30-day return policy
+    </div>
+
+    <!-- Main Header -->
+    <header>
+        <div class="header-main">
+            <a href="#" class="logo">ShopEase</a>
+            
+            <div class="search-bar">
+                <input type="text" placeholder="Search products...">
+                <button type="button">Search</button>
+            </div>
+            
+            <div class="header-actions">
+                <a href="#">
+                    <i class="fas fa-user"></i>
+                    Account
+                </a>
+                <a href="#" style="position: relative;">
+                    <i class="fas fa-shopping-cart"></i>
+                    Cart
+                    <span class="cart-count">3</span>
+                </a>
+                <a href="#">
+                    <i class="fas fa-heart"></i>
+                    Wishlist
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Navigation -->
+    <nav>
+        <ul>
+            <li><a href="#">Home</a></li>
+            <li><a href="#">Electronics</a></li>
+            <li><a href="#">Fashion</a></li>
+            <li><a href="#">Home & Living</a></li>
+            <li><a href="#">Books</a></li>
+            <li><a href="#">Sports</a></li>
+            <li><a href="#">Deals</a></li>
+            <li><a href="#">Contact</a></li>
+        </ul>
+    </nav>
+
+    <!-- Main Content -->
+    <main>
+        <!-- Hero Banner -->
+        <section class="hero-banner">
+            <h1>Summer Sale - Up to 50% Off</h1>
+            <p>Discover amazing deals on top brands</p>
+            <button>Shop Now</button>
+        </section>
+
+        <!-- Products Section -->
+        <section>
+            <h2 class="section-title">Featured Products</h2>
+            <div class="product-grid">
+                <!-- Product 1 -->
+                <div class="product-card">
+                    <div class="product-image">
+                        <span class="product-badge">-20%</span>
+                        <img src="https://via.placeholder.com/250x200?text=Smartphone" alt="Smartphone">
+                    </div>
+                    <div class="product-details">
+                        <div class="product-name">Smartphone X Pro</div>
+                        <div class="product-category">Electronics</div>
+                        <div class="product-price">
+                            $799.99
+                            <span class="original-price">$999.99</span>
+                        </div>
+                        <div class="product-rating">
+                            ★★★★☆ (4.5)
+                        </div>
+                        <button class="add-to-cart">Add to Cart</button>
+                    </div>
+                </div>
+
+                <!-- Product 2 -->
+                <div class="product-card">
+                    <div class="product-image">
+                        <span class="product-badge">New</span>
+                        <img src="https://via.placeholder.com/250x200?text=Laptop" alt="Laptop">
+                    </div>
+                    <div class="product-details">
+                        <div class="product-name">UltraBook 15"</div>
+                        <div class="product-category">Electronics</div>
+                        <div class="product-price">
+                            $1,299.99
+                        </div>
+                        <div class="product-rating">
+                            ★★★★★ (5.0)
+                        </div>
+                        <button class="add-to-cart">Add to Cart</button>
+                    </div>
+                </div>
+
+                <!-- Product 3 -->
+                <div class="product-card">
+                    <div class="product-image">
+                        <span class="product-badge">-30%</span>
+                        <img src="https://via.placeholder.com/250x200?text=Headphones" alt="Headphones">
+                    </div>
+                    <div class="product-details">
+                        <div class="product-name">Wireless Headphones</div>
+                        <div class="product-category">Accessories</div>
+                        <div class="product-price">
+                            $199.99
+                            <span class="original-price">$299.99</span>
+                        </div>
+                        <div class="product-rating">
+                            ★★★★☆ (4.2)
+                        </div>
+                        <button class="add-to-cart">Add to Cart</button>
+                    </div>
+                </div>
+
+                <!-- Product 4 -->
+                <div class="product-card">
+                    <div class="product-image">
+                        <img src="https://via.placeholder.com/250x200?text=Smart+Watch" alt="Smart Watch">
+                    </div>
+                    <div class="product-details">
+                        <div class="product-name">Smart Watch Series 5</div>
+                        <div class="product-category">Wearables</div>
+                        <div class="product-price">
+                            $349.99
+                        </div>
+                        <div class="product-rating">
+                            ★★★★☆ (4.0)
+                        </div>
+                        <button class="add-to-cart">Add to Cart</button>
+                    </div>
+                </div>
+
+                <!-- Product 5 -->
+                <div class="product-card">
+                    <div class="product-image">
+                        <span class="product-badge">-50%</span>
+                        <img src="https://via.placeholder.com/250x200?text=Camera" alt="Camera">
+                    </div>
+                    <div class="product-details">
+                        <div class="product-name">DSLR Camera</div>
+                        <div class="product-category">Electronics</div>
+                        <div class="product-price">
+                            $499.99
+                            <span class="original-price">$999.99</span>
+                        </div>
+                        <div class="product-rating">
+                            ★★★★☆ (4.7)
+                        </div>
+                        <button class="add-to-cart">Add to Cart</button>
+                    </div>
+                </div>
+
+                <!-- Product 6 -->
+                <div class="product-card">
+                    <div class="product-image">
+                        <img src="https://via.placeholder.com/250x200?text=Backpack" alt="Backpack">
+                    </div>
+                    <div class="product-details">
+                        <div class="product-name">Travel Backpack</div>
+                        <div class="product-category">Accessories</div>
+                        <div class="product-price">
+                            $79.99
+                        </div>
+                        <div class="product-rating">
+                            ★★★☆☆ (3.8)
+                        </div>
+                        <button class="add-to-cart">Add to Cart</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Cart Summary Section -->
+        <section class="cart-summary">
+            <h2 class="section-title">Shopping Cart</h2>
+            
+            <div class="cart-item">
+                <div class="cart-item-image"></div>
+                <div class="cart-item-details">
+                    <div class="cart-item-name">Smartphone X Pro</div>
+                    <div class="cart-item-price">$799.99</div>
+                </div>
+                <div class="cart-item-quantity">
+                    <button class="quantity-btn">-</button>
+                    <span>1</span>
+                    <button class="quantity-btn">+</button>
+                </div>
+                <button class="quantity-btn">Remove</button>
+            </div>
+
+            <div class="cart-item">
+                <div class="cart-item-image"></div>
+                <div class="cart-item-details">
+                    <div class="cart-item-name">Wireless Headphones</div>
+                    <div class="cart-item-price">$199.99</div>
+                </div>
+                <div class="cart-item-quantity">
+                    <button class="quantity-btn">-</button>
+                    <span>2</span>
+                    <button class="quantity-btn">+</button>
+                </div>
+                <button class="quantity-btn">Remove</button>
+            </div>
+
+            <div class="cart-total">
+                <h3>Total: $1,199.97</h3>
+                <button class="checkout-btn">Proceed to Checkout</button>
+            </div>
+        </section>
+
+        <!-- Contact Form -->
+        <section class="form-container">
+            <h2 class="section-title">Contact Us</h2>
+            <form>
+                <div class="form-group">
+                    <label for="name">Full Name</label>
+                    <input type="text" id="name" name="name" placeholder="Enter your full name">
+                </div>
+                
+                <div class="form-group">
+                    <label for="email">Email Address</label>
+                    <input type="email" id="email" name="email" placeholder="Enter your email">
+                </div>
+                
+                <div class="form-group">
+                    <label for="subject">Subject</label>
+                    <select id="subject" name="subject">
+                        <option value="">Select a subject</option>
+                        <option value="order">Order Inquiry</option>
+                        <option value="shipping">Shipping Question</option>
+                        <option value="return">Return Request</option>
+                        <option value="other">Other</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="message">Message</label>
+                    <textarea id="message" name="message" placeholder="Type your message here..."></textarea>
+                </div>
+                
+                <button type="submit" class="checkout-btn">Send Message</button>
+            </form>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>ShopEase</h3>
+                <p>Your one-stop shop for everything you need. Quality products at affordable prices.</p>
+            </div>
+            
+            <div class="footer-section">
+                <h3>Quick Links</h3>
+                <ul>
+                    <li><a href="#">About Us</a></li>
+                    <li><a href="#">Contact</a></li>
+                    <li><a href="#">FAQs</a></li>
+                    <li><a href="#">Shipping Policy</a></li>
+                    <li><a href="#">Return Policy</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-section">
+                <h3>Categories</h3>
+                <ul>
+                    <li><a href="#">Electronics</a></li>
+                    <li><a href="#">Fashion</a></li>
+                    <li><a href="#">Home & Living</a></li>
+                    <li><a href="#">Books</a></li>
+                    <li><a href="#">Sports</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-section">
+                <h3>Contact Info</h3>
+                <ul>
+                    <li>Email: support@shopease.com</li>
+                    <li>Phone: (555) 123-4567</li>
+                    <li>Address: 123 Commerce St, New York, NY 10001</li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="footer-bottom">
+            <p>&copy; 2024 ShopEase. All rights reserved.</p>
+        </div>
+    </footer>
+</body>
+</html>
