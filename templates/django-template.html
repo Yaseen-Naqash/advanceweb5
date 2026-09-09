@@ -561,6 +561,13 @@
                             <span class="original-price">${{product.price}}</span>
                         </div>
                         <div class="product-rating">
+                            {% for i in "12345" %}
+                                {% if forloop.counter <= product.rating %}
+                                    ★
+                                {% else %}
+                                    ☆
+                                {% endif %}
+                            {% endfor %} ({{ product.rating }})
                         </div>
                         <button class="add-to-cart">Add to Cart</button>
                     </div>

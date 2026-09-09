@@ -1,5 +1,5 @@
 from django.db import models
-
+from decimal import Decimal
 # Create your models here.
 class Category(models.Model):
     title = models.CharField(max_length=127, null=True)
@@ -15,7 +15,7 @@ class Product(models.Model):
     image = models.ImageField(upload_to='images', null=True)
     created_at = models.DateTimeField(auto_now=True)
     updated_at = models.DateTimeField(auto_now_add=True)
-    
+
 
     def __str__(self):
         return self.title
