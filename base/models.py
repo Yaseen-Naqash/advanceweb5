@@ -15,6 +15,15 @@ class Product(models.Model):
     image = models.ImageField(upload_to='images', null=True)
     created_at = models.DateTimeField(auto_now=True)
     updated_at = models.DateTimeField(auto_now_add=True)
+    
+    @property
+    def final_price(self):
+        if self.discount:
+            x = self.price - (self.price / 100 * self.discount)
+            x = int(x)
+            return x
+        else:
+            return self.price
 
 
     def __str__(self):

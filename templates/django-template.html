@@ -545,7 +545,9 @@
                  {% for product in products %}
                 <div class="product-card">
                     <div class="product-image">
+                        {% if product.discount %}
                         <span class="product-badge">-{{product.discount}}%</span>
+                        {% endif %}
                         {% if product.image %}
                         <img src="{{ product.image.url }}" alt="Smartphone">
                         {% else %}
@@ -557,8 +559,11 @@
                         <div class="product-name">{{product.title}}</div>
                         <div class="product-category">{{product.category}}</div>
                         <div class="product-price">
-                            ###
+                            {{ product.final_price }}
+                            {% if product.discount %}
                             <span class="original-price">${{product.price}}</span>
+                            {% endif %}
+
                         </div>
                         <div class="product-rating">
                             {% for i in "12345" %}
