@@ -489,15 +489,25 @@
     <!-- Main Header -->
     <header>
         <div class="header-main">
-            <a href="#" class="logo">ShopEase</a>
+            <a href="{% url 'home_url' %}" class="logo">ShopEase</a>
             
             <div class="search-bar">
-                <input type="text" placeholder="Search products...">
-                <button type="button">Search</button>
+                <form action="" method="GET">
+                    <input type="text" name="q" placeholder="Search products...">
+
+                    {% if request.GET.category %}
+                    <input type="hidden" name="category" id="" value="{{ request.GET.category }}">
+                    {% endif %}
+
+
+                    <button type="submit">Search</button>
+
+
+                </form>
             </div>
             
             <div class="header-actions">
-                <a href="#">
+                <a href="{% url 'account_url' %}">
                     <i class="fas fa-user"></i>
                     Account
                 </a>
@@ -517,14 +527,9 @@
     <!-- Navigation -->
     <nav>
         <ul>
-            <li><a href="#">Home</a></li>
-            <li><a href="#">Electronics</a></li>
-            <li><a href="#">Fashion</a></li>
-            <li><a href="#">Home & Living</a></li>
-            <li><a href="#">Books</a></li>
-            <li><a href="#">Sports</a></li>
-            <li><a href="#">Deals</a></li>
-            <li><a href="#">Contact</a></li>
+            {% for category in categories %}
+            <li><a href="{% url 'home_url' %}?category={{category.title}}">{{ category.title }}</a></li>
+            {% endfor %}
         </ul>
     </nav>
 
@@ -581,6 +586,7 @@
 
             </div>
         </section>
+
 
         <!-- Cart Summary Section -->
         <section class="cart-summary">
@@ -699,5 +705,10 @@
             <p>&copy; 2024 ShopEase. All rights reserved.</p>
         </div>
     </footer>
+
+    <script>
+
+
+    </script>
 </body>
 </html>

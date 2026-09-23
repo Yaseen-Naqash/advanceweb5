@@ -18,13 +18,15 @@ from django.contrib import admin
 from django.urls import path, include
 from django.conf.urls.static import static
 from django.conf import settings
-from base.views import home
+from base.views import home, account, detail
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', home),
+    path('', home, name='home_url'),
+    path('account/', account, name='account_url'),
+    path('detail/', detail)
     
 ]
 urlpatterns += static(settings.MEDIA_URL ,document_root=settings.MEDIA_ROOT)
-
+https://github.com/Yaseen-Naqash/advanceweb5
 
 
