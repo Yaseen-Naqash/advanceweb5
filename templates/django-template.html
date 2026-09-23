@@ -548,42 +548,45 @@
             <div class="product-grid">
                 <!-- Product 1 -->
                  {% for product in products %}
-                <div class="product-card">
-                    <div class="product-image">
-                        {% if product.discount %}
-                        <span class="product-badge">-{{product.discount}}%</span>
-                        {% endif %}
-                        {% if product.image %}
-                        <img src="{{ product.image.url }}" alt="Smartphone">
-                        {% else %}
-                        <img src="" alt="Smartphone">
-
-                        {% endif %}
-                    </div>
-                    <div class="product-details">
-                        <div class="product-name">{{product.title}}</div>
-                        <div class="product-category">{{product.category}}</div>
-                        <div class="product-price">
-                            {{ product.final_price }}
+                 
+                 <a href="{% url 'product_url' product.id %}">
+                    <div class="product-card">
+                        <div class="product-image">
                             {% if product.discount %}
-                            <span class="original-price">${{product.price}}</span>
+                            <span class="product-badge">-{{product.discount}}%</span>
                             {% endif %}
+                            {% if product.image %}
+                            <img src="{{ product.image.url }}" alt="Smartphone">
+                            {% else %}
+                            <img src="" alt="Smartphone">
 
+                            {% endif %}
                         </div>
-                        <div class="product-rating">
-                            {% for i in "12345" %}
-                                {% if forloop.counter <= product.rating %}
-                                    ★
-                                {% else %}
-                                    ☆
+                        <div class="product-details">
+                            <div class="product-name">{{product.title}}</div>
+                            <div class="product-category">{{product.category}}</div>
+                            <div class="product-price">
+                                {{ product.final_price }}
+                                {% if product.discount %}
+                                <span class="original-price">${{product.price}}</span>
                                 {% endif %}
-                            {% endfor %} ({{ product.rating }})
-                        </div>
-                        <button class="add-to-cart">Add to Cart</button>
-                    </div>
-                </div>
-                {% endfor %}
 
+                            </div>
+                            <div class="product-rating">
+                                {% for i in "12345" %}
+                                    {% if forloop.counter <= product.rating %}
+                                        ★
+                                    {% else %}
+                                        ☆
+                                    {% endif %}
+                                {% endfor %} ({{ product.rating }})
+                            </div>
+                            <button class="add-to-cart">Add to Cart</button>
+                        </div>
+                    </div>
+                </a>
+                {% endfor %}
+            
             </div>
         </section>
 

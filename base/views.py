@@ -36,6 +36,10 @@ def account(request):
     return render(request, 'account.html')
 
 
-def detail(request):
+def detail(request, pk):
 
-    return render(request, '')
+    product = Product.objects.get(id=pk)
+    context = {
+        'product' : product
+    }
+    return render(request, 'detail.html', context)
