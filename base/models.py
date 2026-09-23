@@ -1,6 +1,23 @@
 from django.db import models
 from decimal import Decimal
+
+from django.contrib.auth.models import AbstractUser
 # Create your models here.
+
+
+class Person(AbstractUser):
+    phone = models.CharField(max_length=127, null=True, blank=True)
+    GENDER = {  
+        '0':'male',
+        '1': 'femaie',
+    }
+    gender = models.CharField(max_length=1, choices=GENDER, null=True, default='0')
+    external_id = models.CharField(max_length=127, null=True, blank=True)
+
+
+
+
+
 class Category(models.Model):
     title = models.CharField(max_length=127, null=True)
     def __str__(self):

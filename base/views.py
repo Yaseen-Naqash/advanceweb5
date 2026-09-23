@@ -1,7 +1,11 @@
-from django.shortcuts import render
-from .models import Product, Category
+from django.shortcuts import render, redirect
+from .models import Product, Category, Person
 # Create your views here.
 
+
+from django.contrib.auth import login, authenticate, logout
+from django.contrib import messages
+from django.contrib.auth.decorators import login_required
 
 def home(request):
 
@@ -43,3 +47,46 @@ def detail(request, pk):
         'product' : product
     }
     return render(request, 'detail.html', context)
+
+def login_page(request):
+
+    if request.method == 'POST':
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+
+        user = authenticate(username=username, password=password)
+
+        if user is not None:
+            login(request, user)
+            messages.success(request, 'you are logged in')
+            return redirect('home_url')
+        else:
+            messages.error(request, 'username or password is incorrect')
+            return redirect('login_url')
+
+    return render(request, 'login.html')
+
+
+
+def register(request):
+
+
+    
+    if request.method == 'POST':
+        x = Person.objects.create(
+            username='saDasdasdasd',
+            password='asdasdasd',
+            email='asdasda',
+            first_name='asdasdasd',
+            last_name='asdasdasd',
+        )
+
+        x.set_password('asdasdasd'),
+
+
+
+
+
+
+    return render(request, 'login.html')
+

@@ -745,9 +745,114 @@
         .auth-card {
             animation: fadeSlideUp 0.45s ease-out;
         }
+
+        .messages-container {
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        z-index: 9999;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        max-width: 400px;
+    }
+
+    .alert {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 12px 16px;
+        border-radius: 6px;
+        color: #fff;
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+        font-size: 14px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        animation: slideIn 0.3s ease-out;
+    }
+
+    @keyframes slideIn {
+        from {
+            opacity: 0;
+            transform: translateX(100%);
+        }
+        to {
+            opacity: 1;
+            transform: translateX(0);
+        }
+    }
+
+    .alert-error   { background-color: #dc3545; }
+    .alert-warning { background-color: #ffc107; color: #212529; }
+    .alert-success { background-color: #28a745; }
+    .alert-info    { background-color: #17a2b8; }
+    .alert-default { background-color: #6c757d; }
+
+    .alert-icon {
+        font-weight: bold;
+        font-size: 16px;
+    }
+
+    .alert-text {
+        flex: 1;
+        line-height: 1.4;
+    }
+
+    .alert-close {
+        background: transparent;
+        border: none;
+        color: inherit;
+        font-size: 20px;
+        cursor: pointer;
+        line-height: 1;
+        padding: 0 4px;
+        opacity: 0.8;
+    }
+
+    .alert-close:hover {
+        opacity: 1;
+    }
     </style>
 </head>
 <body>
+    {% if messages %}
+    <div class="messages-container">
+        {% for message in messages %}
+            {% if message.tags == 'error' %}
+                <div class="alert alert-error" role="alert">
+                    <span class="alert-icon">✕</span>
+                    <span class="alert-text">{{ message }}</span>
+                    <button type="button" class="alert-close" onclick="this.parentElement.remove()">×</button>
+                </div>
+            {% elif message.tags == 'warning' %}
+                <div class="alert alert-warning" role="alert">
+                    <span class="alert-icon">⚠</span>
+                    <span class="alert-text">{{ message }}</span>
+                    <button type="button" class="alert-close" onclick="this.parentElement.remove()">×</button>
+                </div>
+            {% elif message.tags == 'success' %}
+                <div class="alert alert-success" role="alert">
+                    <span class="alert-icon">✓</span>
+                    <span class="alert-text">{{ message }}</span>
+                    <button type="button" class="alert-close" onclick="this.parentElement.remove()">×</button>
+                </div>
+            {% elif message.tags == 'info' %}
+                <div class="alert alert-info" role="alert">
+                    <span class="alert-icon">ℹ</span>
+                    <span class="alert-text">{{ message }}</span>
+                    <button type="button" class="alert-close" onclick="this.parentElement.remove()">×</button>
+                </div>
+            {% else %}
+                <div class="alert alert-default" role="alert">
+                    <span class="alert-icon">•</span>
+                    <span class="alert-text">{{ message }}</span>
+                    <button type="button" class="alert-close" onclick="this.parentElement.remove()">×</button>
+                </div>
+            {% endif %}
+        {% endfor %}
+    </div>
+    {% endif %}
+
+
     <!-- Header Top Bar -->
     <div class="header-top">
         Free shipping on orders over $50 &nbsp;|&nbsp; 30-day return policy
@@ -768,7 +873,7 @@
             <div class="header-actions">
                 <a href="#" id="accountLink">
                     <i class="fas fa-user"></i>
-                    Account
+                    {{ request.user }}
                 </a>
                 <a href="#" style="position: relative;">
                     <i class="fas fa-shopping-cart"></i>
@@ -796,7 +901,9 @@
     </nav>
 
     <!-- Main Content -->
-    <main>
+    <main>  
+        
+
         <div class="auth-wrapper">
             <!-- ========== LOGIN CARD ========== -->
             <div class="auth-card" id="loginCard">
@@ -814,12 +921,13 @@
                     <span id="errorText">Invalid email or password. Please try again.</span>
                 </div>
 
-                <form class="auth-form" id="loginForm" onsubmit="handleLogin(event)">
+                <form class="auth-form" method="POST">
+                    {% csrf_token %}
                     <div class="form-group">
-                        <label for="email">Email Address</label>
+                        <label for="email">Username</label>
                         <div class="input-wrapper">
                             <i class="fas fa-envelope"></i>
-                            <input type="email" id="email" placeholder="you@example.com" required autocomplete="email">
+                            <input type="text" id="email" name="username" placeholder="you@example" required>
                         </div>
                     </div>
 
@@ -827,7 +935,7 @@
                         <label for="password">Password</label>
                         <div class="input-wrapper">
                             <i class="fas fa-lock"></i>
-                            <input type="password" id="password" placeholder="Enter your password" required autocomplete="current-password">
+                            <input type="password" id="password" name="password" placeholder="Enter your password" required autocomplete="current-password">
                             <button type="button" class="toggle-password" onclick="togglePassword()" id="toggleBtn">
                                 <i class="far fa-eye" id="eyeIcon"></i>
                             </button>
@@ -941,126 +1049,6 @@
         </div>
     </footer>
 
-    <script>
-        /* ----- password visibility toggle ----- */
-        function togglePassword() {
-            const passwordInput = document.getElementById('password');
-            const eyeIcon = document.getElementById('eyeIcon');
-            if (passwordInput.type === 'password') {
-                passwordInput.type = 'text';
-                eyeIcon.classList.remove('far', 'fa-eye');
-                eyeIcon.classList.add('fas', 'fa-eye-slash');
-            } else {
-                passwordInput.type = 'password';
-                eyeIcon.classList.remove('fas', 'fa-eye-slash');
-                eyeIcon.classList.add('far', 'fa-eye');
-            }
-        }
 
-        /* ----- demo credentials ----- */
-        const DEMO_USER = {
-            email: 'john.doe@example.com',
-            password: 'password123',
-            name: 'John Doe',
-            initials: 'JD'
-        };
-
-        /* ----- handle login form submission ----- */
-        function handleLogin(event) {
-            event.preventDefault();
-
-            const email = document.getElementById('email').value.trim().toLowerCase();
-            const password = document.getElementById('password').value;
-            const errorBox = document.getElementById('errorMessage');
-            const errorText = document.getElementById('errorText');
-
-            // Simple validation: accept demo credentials OR any non-empty email/password
-            // (In a real app, you'd call an API here.)
-            if (!email || !password) {
-                errorText.textContent = 'Please fill in all fields.';
-                errorBox.classList.add('show');
-                return;
-            }
-
-            // Check against demo credentials, but also accept any email/password combo for demo
-            if (email === DEMO_USER.email && password === DEMO_USER.password) {
-                // Success with demo user
-                errorBox.classList.remove('show');
-                loginSuccess(DEMO_USER.name, DEMO_USER.initials, DEMO_USER.email);
-            } else if (email && password.length >= 4) {
-                // Accept any email with password length >= 4 (demo mode)
-                errorBox.classList.remove('show');
-                const name = email.split('@')[0].replace(/[._]/g, ' ').replace(/\b\w/g, c => c.toUpperCase());
-                const initials = name.split(' ').map(n => n[0]).join('').slice(0, 2).toUpperCase();
-                loginSuccess(name, initials, email);
-            } else {
-                errorText.textContent = 'Invalid email or password. Please try again.';
-                errorBox.classList.add('show');
-            }
-        }
-
-        /* ----- show logged-in view ----- */
-        function loginSuccess(name, initials, email) {
-            // Hide login card, show logged-in card
-            document.getElementById('loginCard').style.display = 'none';
-            const loggedInCard = document.getElementById('loggedInCard');
-            loggedInCard.style.display = 'block';
-
-            // Set user info
-            document.getElementById('userAvatar').textContent = initials || 'U';
-            document.getElementById('welcomeName').textContent = `Welcome back, ${name || 'User'}!`;
-            document.getElementById('userEmail').textContent = email || 'user@example.com';
-
-            // Update header account link text
-            document.getElementById('accountLink').innerHTML = `<i class="fas fa-user-check"></i> ${name.split(' ')[0]}`;
-
-            // Scroll to top of card for smooth view
-            loggedInCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
-        }
-
-        /* ----- handle logout ----- */
-        function handleLogout() {
-            // Show login card, hide logged-in card
-            document.getElementById('loggedInCard').style.display = 'none';
-            const loginCard = document.getElementById('loginCard');
-            loginCard.style.display = 'block';
-
-            // Reset form
-            document.getElementById('loginForm').reset();
-            document.getElementById('password').type = 'password';
-            document.getElementById('eyeIcon').className = 'far fa-eye';
-            document.getElementById('errorMessage').classList.remove('show');
-
-            // Reset header link
-            document.getElementById('accountLink').innerHTML = `<i class="fas fa-user"></i> Account`;
-
-            // Scroll to top of card
-            loginCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
-        }
-
-        /* ----- social login (demo) ----- */
-        function socialLogin(provider) {
-            // In a real app, this would redirect to OAuth flow.
-            // For demo, we simulate a successful login.
-            const demoName = `${provider} User`;
-            const demoInitials = provider.slice(0, 2).toUpperCase();
-            const demoEmail = `user@${provider.toLowerCase()}.com`;
-            loginSuccess(demoName, demoInitials, demoEmail);
-        }
-
-        /* ----- clear error when typing ----- */
-        document.getElementById('email').addEventListener('input', () => {
-            document.getElementById('errorMessage').classList.remove('show');
-        });
-        document.getElementById('password').addEventListener('input', () => {
-            document.getElementById('errorMessage').classList.remove('show');
-        });
-
-        /* ----- account link in header scrolls to auth card ----- */
-        document.getElementById('accountLink').addEventListener('click', (e) => {
-            e.preventDefault();
-            document.querySelector('.auth-card').scrollIntoView({ behavior: 'smooth', block: 'center' });
-        });
-    </script>
 </body>
 </html>
