@@ -1,0 +1,1066 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign In · ShopEase</title>
+    <!-- Font Awesome 6 (free) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        /* ---------- RESET & GLOBAL (same as main) ---------- */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f5f5f5;
+            color: #333;
+            line-height: 1.5;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* ---------- HEADER (same) ---------- */
+        .header-top {
+            background-color: #2c3e50;
+            color: white;
+            padding: 8px 0;
+            text-align: center;
+            font-size: 0.9rem;
+            letter-spacing: 0.3px;
+        }
+
+        header {
+            background-color: #fff;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.08);
+            position: sticky;
+            top: 0;
+            z-index: 200;
+        }
+
+        .header-main {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 50px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .logo {
+            font-size: 28px;
+            font-weight: 700;
+            color: #e74c3c;
+            text-decoration: none;
+            letter-spacing: -0.5px;
+        }
+
+        .search-bar {
+            flex: 1;
+            margin: 0 40px;
+            position: relative;
+            min-width: 200px;
+        }
+
+        .search-bar form {
+            display: flex;
+            width: 100%;
+        }
+
+        .search-bar input {
+            flex: 1;
+            padding: 12px 20px;
+            border: 2px solid #ddd;
+            border-radius: 40px;
+            font-size: 15px;
+            outline: none;
+            transition: border-color 0.25s, box-shadow 0.25s;
+        }
+
+        .search-bar input:focus {
+            border-color: #e74c3c;
+            box-shadow: 0 0 0 3px rgba(231,76,60,0.1);
+        }
+
+        .search-bar button {
+            position: absolute;
+            right: 3px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: #e74c3c;
+            color: white;
+            border: none;
+            padding: 10px 24px;
+            border-radius: 30px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.2s;
+            font-size: 14px;
+        }
+
+        .search-bar button:hover {
+            background: #c0392b;
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 28px;
+            align-items: center;
+        }
+
+        .header-actions a {
+            color: #2c3e50;
+            text-decoration: none;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            font-size: 12px;
+            font-weight: 500;
+            transition: color 0.2s;
+            position: relative;
+        }
+
+        .header-actions a:hover {
+            color: #e74c3c;
+        }
+
+        .header-actions i {
+            font-size: 22px;
+            margin-bottom: 3px;
+        }
+
+        .cart-count {
+            background-color: #e74c3c;
+            color: white;
+            border-radius: 50%;
+            padding: 2px 7px;
+            font-size: 11px;
+            position: absolute;
+            top: -10px;
+            right: -10px;
+            font-weight: 700;
+            line-height: 1.4;
+        }
+
+        /* ---------- NAVIGATION (same) ---------- */
+        nav {
+            background-color: #fff;
+            border-top: 1px solid #ececec;
+            padding: 8px 50px;
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 32px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: #2c3e50;
+            font-weight: 500;
+            font-size: 15px;
+            transition: color 0.2s;
+            padding: 6px 0;
+            display: inline-block;
+        }
+
+        nav a:hover {
+            color: #e74c3c;
+        }
+
+        /* ---------- MAIN (centered auth card) ---------- */
+        main {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 60px 20px;
+            background: linear-gradient(135deg, #f5f7fa 0%, #e9edf3 100%);
+        }
+
+        .auth-wrapper {
+            width: 100%;
+            max-width: 480px;
+        }
+
+        .auth-card {
+            background: #ffffff;
+            border-radius: 24px;
+            box-shadow: 0 15px 45px rgba(44, 62, 80, 0.12);
+            padding: 45px 40px 40px;
+            position: relative;
+            overflow: hidden;
+            transition: box-shadow 0.3s;
+        }
+
+        .auth-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 6px;
+            background: linear-gradient(90deg, #e74c3c, #f39c12, #667eea);
+        }
+
+        .auth-header {
+            text-align: center;
+            margin-bottom: 32px;
+        }
+
+        .auth-header .brand-icon {
+            width: 68px;
+            height: 68px;
+            background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
+            border-radius: 20px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 28px;
+            margin-bottom: 18px;
+            box-shadow: 0 8px 20px rgba(231, 76, 60, 0.3);
+        }
+
+        .auth-header h1 {
+            font-size: 1.9rem;
+            color: #1e2b37;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            margin-bottom: 8px;
+        }
+
+        .auth-header p {
+            color: #7f8c8d;
+            font-size: 0.98rem;
+        }
+
+        /* ---------- FORM ---------- */
+        .auth-form .form-group {
+            margin-bottom: 20px;
+            position: relative;
+        }
+
+        .auth-form label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            color: #2c3e50;
+            letter-spacing: 0.2px;
+        }
+
+        .input-wrapper {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        .input-wrapper i {
+            position: absolute;
+            left: 16px;
+            color: #95a5a6;
+            font-size: 16px;
+            transition: color 0.2s;
+            pointer-events: none;
+        }
+
+        .input-wrapper input {
+            width: 100%;
+            padding: 14px 16px 14px 46px;
+            border: 2px solid #e4e8ec;
+            border-radius: 14px;
+            font-size: 15px;
+            outline: none;
+            background: #fafbfc;
+            transition: border-color 0.25s, box-shadow 0.25s, background 0.25s;
+            color: #1e2b37;
+            font-family: inherit;
+        }
+
+        .input-wrapper input::placeholder {
+            color: #b0bec5;
+        }
+
+        .input-wrapper input:focus {
+            border-color: #e74c3c;
+            background: #ffffff;
+            box-shadow: 0 0 0 4px rgba(231, 76, 60, 0.1);
+        }
+
+        .input-wrapper input:focus + i,
+        .input-wrapper input:focus ~ i {
+            color: #e74c3c;
+        }
+
+        .toggle-password {
+            position: absolute;
+            right: 16px;
+            background: none;
+            border: none;
+            color: #95a5a6;
+            cursor: pointer;
+            font-size: 16px;
+            padding: 5px;
+            transition: color 0.2s;
+            pointer-events: auto;
+        }
+
+        .toggle-password:hover {
+            color: #e74c3c;
+        }
+
+        .form-options {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 28px;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .remember-me {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            color: #4a5568;
+            user-select: none;
+        }
+
+        .remember-me input {
+            width: 18px;
+            height: 18px;
+            accent-color: #e74c3c;
+            cursor: pointer;
+        }
+
+        .forgot-link {
+            color: #e74c3c;
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 600;
+            transition: color 0.2s;
+        }
+
+        .forgot-link:hover {
+            color: #c0392b;
+            text-decoration: underline;
+        }
+
+        .btn-auth {
+            width: 100%;
+            padding: 16px;
+            background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
+            color: white;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.05rem;
+            font-weight: 700;
+            letter-spacing: 0.4px;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.25s;
+            box-shadow: 0 8px 22px rgba(231, 76, 60, 0.3);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            font-family: inherit;
+        }
+
+        .btn-auth:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 14px 30px rgba(231, 76, 60, 0.4);
+        }
+
+        .btn-auth:active {
+            transform: translateY(1px);
+        }
+
+        /* ---------- DIVIDER ---------- */
+        .auth-divider {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin: 28px 0;
+            color: #b0bec5;
+            font-size: 0.85rem;
+            font-weight: 500;
+        }
+
+        .auth-divider::before,
+        .auth-divider::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: #e4e8ec;
+        }
+
+        /* ---------- SOCIAL LOGIN ---------- */
+        .social-login {
+            display: flex;
+            gap: 14px;
+            margin-bottom: 28px;
+        }
+
+        .social-btn {
+            flex: 1;
+            padding: 13px;
+            border: 2px solid #e4e8ec;
+            background: #ffffff;
+            border-radius: 14px;
+            font-size: 1rem;
+            font-weight: 600;
+            color: #4a5568;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            font-family: inherit;
+        }
+
+        .social-btn:hover {
+            border-color: #e74c3c;
+            color: #e74c3c;
+            background: rgba(231, 76, 60, 0.03);
+            transform: translateY(-1px);
+        }
+
+        .social-btn i {
+            font-size: 1.2rem;
+        }
+
+        .social-btn.google:hover i { color: #db4437; }
+        .social-btn.facebook:hover i { color: #1877f2; }
+        .social-btn.apple:hover i { color: #000; }
+
+        /* ---------- FOOTER OF CARD ---------- */
+        .auth-footer {
+            text-align: center;
+            font-size: 0.95rem;
+            color: #4a5568;
+        }
+
+        .auth-footer a {
+            color: #e74c3c;
+            font-weight: 700;
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+
+        .auth-footer a:hover {
+            color: #c0392b;
+            text-decoration: underline;
+        }
+
+        /* ---------- LOGOUT / LOGGED-IN VIEW (hidden by default) ---------- */
+        .logged-in-view {
+            display: none;
+            text-align: center;
+        }
+
+        .logged-in-view .user-avatar {
+            width: 90px;
+            height: 90px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 50%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 2.4rem;
+            font-weight: 700;
+            margin-bottom: 18px;
+            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.35);
+            letter-spacing: -1px;
+        }
+
+        .logged-in-view h2 {
+            font-size: 1.7rem;
+            color: #1e2b37;
+            margin-bottom: 6px;
+            font-weight: 700;
+        }
+
+        .logged-in-view .user-email {
+            color: #7f8c8d;
+            font-size: 0.98rem;
+            margin-bottom: 28px;
+        }
+
+        .user-dashboard-links {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-bottom: 28px;
+        }
+
+        .dashboard-link {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            padding: 15px 20px;
+            background: #f8f9fb;
+            border-radius: 14px;
+            text-decoration: none;
+            color: #2c3e50;
+            font-weight: 600;
+            font-size: 0.98rem;
+            transition: all 0.2s;
+            border: 2px solid transparent;
+        }
+
+        .dashboard-link:hover {
+            background: rgba(231, 76, 60, 0.05);
+            border-color: rgba(231, 76, 60, 0.2);
+            color: #e74c3c;
+            transform: translateX(4px);
+        }
+
+        .dashboard-link i {
+            width: 24px;
+            text-align: center;
+            font-size: 1.1rem;
+            color: #e74c3c;
+        }
+
+        .btn-logout {
+            width: 100%;
+            padding: 15px;
+            background: transparent;
+            color: #e74c3c;
+            border: 2px solid #e74c3c;
+            border-radius: 50px;
+            font-size: 1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.25s;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            font-family: inherit;
+            letter-spacing: 0.3px;
+        }
+
+        .btn-logout:hover {
+            background: #e74c3c;
+            color: white;
+            box-shadow: 0 8px 22px rgba(231, 76, 60, 0.3);
+            transform: translateY(-2px);
+        }
+
+        .btn-logout:active {
+            transform: translateY(1px);
+        }
+
+        /* ---------- ERROR MESSAGE ---------- */
+        .error-message {
+            background: #fde8e8;
+            color: #c0392b;
+            padding: 12px 16px;
+            border-radius: 12px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            margin-bottom: 20px;
+            display: none;
+            align-items: center;
+            gap: 10px;
+            border-left: 4px solid #e74c3c;
+        }
+
+        .error-message.show {
+            display: flex;
+        }
+
+        .error-message i {
+            font-size: 1rem;
+        }
+
+        /* ---------- FOOTER (same) ---------- */
+        footer {
+            background-color: #2c3e50;
+            color: white;
+            padding: 50px 50px 20px;
+            margin-top: 0;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 35px;
+            max-width: 1400px;
+            margin: 0 auto 30px;
+        }
+
+        .footer-section h3 {
+            margin-bottom: 18px;
+            color: #e74c3c;
+            font-size: 1.2rem;
+            font-weight: 600;
+            letter-spacing: 0.3px;
+        }
+
+        .footer-section ul {
+            list-style: none;
+        }
+
+        .footer-section ul li {
+            margin-bottom: 10px;
+        }
+
+        .footer-section a {
+            color: #d0d9e0;
+            text-decoration: none;
+            transition: color 0.2s;
+            font-size: 0.95rem;
+        }
+
+        .footer-section a:hover {
+            color: #e74c3c;
+        }
+
+        .footer-section p {
+            color: #cfd8e0;
+            line-height: 1.6;
+            font-size: 0.95rem;
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 25px;
+            border-top: 1px solid #3e566b;
+            font-size: 0.9rem;
+            color: #b0c2d0;
+        }
+
+        /* ---------- RESPONSIVE ---------- */
+        @media (max-width: 900px) {
+            .header-main {
+                padding: 15px 25px;
+            }
+            nav {
+                padding: 8px 25px;
+            }
+            footer {
+                padding: 40px 25px 20px;
+            }
+            main {
+                padding: 40px 20px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .header-main {
+                flex-direction: column;
+                gap: 15px;
+                padding: 15px 20px;
+            }
+
+            .search-bar {
+                margin: 5px 0 0;
+                width: 100%;
+            }
+
+            .header-actions {
+                width: 100%;
+                justify-content: space-around;
+                gap: 10px;
+            }
+
+            nav ul {
+                gap: 20px;
+                justify-content: center;
+            }
+
+            .auth-card {
+                padding: 35px 25px 30px;
+            }
+
+            .auth-header h1 {
+                font-size: 1.6rem;
+            }
+
+            .social-login {
+                flex-direction: column;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .auth-card {
+                padding: 28px 20px 25px;
+                border-radius: 20px;
+            }
+
+            .auth-header .brand-icon {
+                width: 58px;
+                height: 58px;
+                font-size: 24px;
+            }
+
+            .auth-header h1 {
+                font-size: 1.4rem;
+            }
+
+            .form-options {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 12px;
+            }
+
+            .logged-in-view .user-avatar {
+                width: 75px;
+                height: 75px;
+                font-size: 2rem;
+            }
+
+            .logged-in-view h2 {
+                font-size: 1.4rem;
+            }
+        }
+
+        /* small animation for card entry */
+        @keyframes fadeSlideUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .auth-card {
+            animation: fadeSlideUp 0.45s ease-out;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header Top Bar -->
+    <div class="header-top">
+        Free shipping on orders over $50 &nbsp;|&nbsp; 30-day return policy
+    </div>
+
+    <!-- Main Header -->
+    <header>
+        <div class="header-main">
+            <a href="#" class="logo">ShopEase</a>
+            
+            <div class="search-bar">
+                <form action="" method="GET">
+                    <input type="text" name="q" placeholder="Search products...">
+                    <button type="submit">Search</button>
+                </form>
+            </div>
+            
+            <div class="header-actions">
+                <a href="#" id="accountLink">
+                    <i class="fas fa-user"></i>
+                    Account
+                </a>
+                <a href="#" style="position: relative;">
+                    <i class="fas fa-shopping-cart"></i>
+                    Cart
+                    <span class="cart-count">3</span>
+                </a>
+                <a href="#">
+                    <i class="fas fa-heart"></i>
+                    Wishlist
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Navigation -->
+    <nav>
+        <ul>
+            <li><a href="#">Electronics</a></li>
+            <li><a href="#">Fashion</a></li>
+            <li><a href="#">Home & Living</a></li>
+            <li><a href="#">Books</a></li>
+            <li><a href="#">Sports</a></li>
+            <li><a href="#">Deals</a></li>
+        </ul>
+    </nav>
+
+    <!-- Main Content -->
+    <main>
+        <div class="auth-wrapper">
+            <!-- ========== LOGIN CARD ========== -->
+            <div class="auth-card" id="loginCard">
+                <div class="auth-header">
+                    <div class="brand-icon">
+                        <i class="fas fa-shopping-bag"></i>
+                    </div>
+                    <h1>Welcome Back</h1>
+                    <p>Sign in to your ShopEase account</p>
+                </div>
+
+                <!-- Error Message -->
+                <div class="error-message" id="errorMessage">
+                    <i class="fas fa-exclamation-circle"></i>
+                    <span id="errorText">Invalid email or password. Please try again.</span>
+                </div>
+
+                <form class="auth-form" id="loginForm" onsubmit="handleLogin(event)">
+                    <div class="form-group">
+                        <label for="email">Email Address</label>
+                        <div class="input-wrapper">
+                            <i class="fas fa-envelope"></i>
+                            <input type="email" id="email" placeholder="you@example.com" required autocomplete="email">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="password">Password</label>
+                        <div class="input-wrapper">
+                            <i class="fas fa-lock"></i>
+                            <input type="password" id="password" placeholder="Enter your password" required autocomplete="current-password">
+                            <button type="button" class="toggle-password" onclick="togglePassword()" id="toggleBtn">
+                                <i class="far fa-eye" id="eyeIcon"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="form-options">
+                        <label class="remember-me">
+                            <input type="checkbox" id="remember" checked>
+                            Remember me
+                        </label>
+                        <a href="#" class="forgot-link">Forgot password?</a>
+                    </div>
+
+                    <button type="submit" class="btn-auth">
+                        <i class="fas fa-sign-in-alt"></i> Sign In
+                    </button>
+                </form>
+
+                <div class="auth-divider">or continue with</div>
+
+                <div class="social-login">
+                    <button class="social-btn google" onclick="socialLogin('Google')">
+                        <i class="fab fa-google"></i> Google
+                    </button>
+                    <button class="social-btn facebook" onclick="socialLogin('Facebook')">
+                        <i class="fab fa-facebook-f"></i> Facebook
+                    </button>
+                    <button class="social-btn apple" onclick="socialLogin('Apple')">
+                        <i class="fab fa-apple"></i> Apple
+                    </button>
+                </div>
+
+                <div class="auth-footer">
+                    Don't have an account? <a href="#">Create one</a>
+                </div>
+            </div>
+
+            <!-- ========== LOGGED-IN (LOGOUT) CARD ========== -->
+            <div class="auth-card logged-in-view" id="loggedInCard">
+                <div class="auth-header">
+                    <div class="user-avatar" id="userAvatar">JD</div>
+                    <h2 id="welcomeName">Welcome back, John!</h2>
+                    <p class="user-email" id="userEmail">john.doe@example.com</p>
+                </div>
+
+                <div class="user-dashboard-links">
+                    <a href="#" class="dashboard-link">
+                        <i class="fas fa-box"></i> My Orders
+                    </a>
+                    <a href="#" class="dashboard-link">
+                        <i class="fas fa-heart"></i> Wishlist
+                    </a>
+                    <a href="#" class="dashboard-link">
+                        <i class="fas fa-map-marker-alt"></i> Addresses
+                    </a>
+                    <a href="#" class="dashboard-link">
+                        <i class="fas fa-cog"></i> Account Settings
+                    </a>
+                </div>
+
+                <button class="btn-logout" onclick="handleLogout()">
+                    <i class="fas fa-sign-out-alt"></i> Sign Out
+                </button>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>ShopEase</h3>
+                <p>Your one-stop shop for everything you need. Quality products at affordable prices.</p>
+            </div>
+            
+            <div class="footer-section">
+                <h3>Quick Links</h3>
+                <ul>
+                    <li><a href="#">About Us</a></li>
+                    <li><a href="#">Contact</a></li>
+                    <li><a href="#">FAQs</a></li>
+                    <li><a href="#">Shipping Policy</a></li>
+                    <li><a href="#">Return Policy</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-section">
+                <h3>Categories</h3>
+                <ul>
+                    <li><a href="#">Electronics</a></li>
+                    <li><a href="#">Fashion</a></li>
+                    <li><a href="#">Home & Living</a></li>
+                    <li><a href="#">Books</a></li>
+                    <li><a href="#">Sports</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-section">
+                <h3>Contact Info</h3>
+                <ul>
+                    <li>Email: support@shopease.com</li>
+                    <li>Phone: (555) 123-4567</li>
+                    <li>Address: 123 Commerce St, New York, NY 10001</li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="footer-bottom">
+            <p>&copy; 2024 ShopEase. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        /* ----- password visibility toggle ----- */
+        function togglePassword() {
+            const passwordInput = document.getElementById('password');
+            const eyeIcon = document.getElementById('eyeIcon');
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                eyeIcon.classList.remove('far', 'fa-eye');
+                eyeIcon.classList.add('fas', 'fa-eye-slash');
+            } else {
+                passwordInput.type = 'password';
+                eyeIcon.classList.remove('fas', 'fa-eye-slash');
+                eyeIcon.classList.add('far', 'fa-eye');
+            }
+        }
+
+        /* ----- demo credentials ----- */
+        const DEMO_USER = {
+            email: 'john.doe@example.com',
+            password: 'password123',
+            name: 'John Doe',
+            initials: 'JD'
+        };
+
+        /* ----- handle login form submission ----- */
+        function handleLogin(event) {
+            event.preventDefault();
+
+            const email = document.getElementById('email').value.trim().toLowerCase();
+            const password = document.getElementById('password').value;
+            const errorBox = document.getElementById('errorMessage');
+            const errorText = document.getElementById('errorText');
+
+            // Simple validation: accept demo credentials OR any non-empty email/password
+            // (In a real app, you'd call an API here.)
+            if (!email || !password) {
+                errorText.textContent = 'Please fill in all fields.';
+                errorBox.classList.add('show');
+                return;
+            }
+
+            // Check against demo credentials, but also accept any email/password combo for demo
+            if (email === DEMO_USER.email && password === DEMO_USER.password) {
+                // Success with demo user
+                errorBox.classList.remove('show');
+                loginSuccess(DEMO_USER.name, DEMO_USER.initials, DEMO_USER.email);
+            } else if (email && password.length >= 4) {
+                // Accept any email with password length >= 4 (demo mode)
+                errorBox.classList.remove('show');
+                const name = email.split('@')[0].replace(/[._]/g, ' ').replace(/\b\w/g, c => c.toUpperCase());
+                const initials = name.split(' ').map(n => n[0]).join('').slice(0, 2).toUpperCase();
+                loginSuccess(name, initials, email);
+            } else {
+                errorText.textContent = 'Invalid email or password. Please try again.';
+                errorBox.classList.add('show');
+            }
+        }
+
+        /* ----- show logged-in view ----- */
+        function loginSuccess(name, initials, email) {
+            // Hide login card, show logged-in card
+            document.getElementById('loginCard').style.display = 'none';
+            const loggedInCard = document.getElementById('loggedInCard');
+            loggedInCard.style.display = 'block';
+
+            // Set user info
+            document.getElementById('userAvatar').textContent = initials || 'U';
+            document.getElementById('welcomeName').textContent = `Welcome back, ${name || 'User'}!`;
+            document.getElementById('userEmail').textContent = email || 'user@example.com';
+
+            // Update header account link text
+            document.getElementById('accountLink').innerHTML = `<i class="fas fa-user-check"></i> ${name.split(' ')[0]}`;
+
+            // Scroll to top of card for smooth view
+            loggedInCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+
+        /* ----- handle logout ----- */
+        function handleLogout() {
+            // Show login card, hide logged-in card
+            document.getElementById('loggedInCard').style.display = 'none';
+            const loginCard = document.getElementById('loginCard');
+            loginCard.style.display = 'block';
+
+            // Reset form
+            document.getElementById('loginForm').reset();
+            document.getElementById('password').type = 'password';
+            document.getElementById('eyeIcon').className = 'far fa-eye';
+            document.getElementById('errorMessage').classList.remove('show');
+
+            // Reset header link
+            document.getElementById('accountLink').innerHTML = `<i class="fas fa-user"></i> Account`;
+
+            // Scroll to top of card
+            loginCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+
+        /* ----- social login (demo) ----- */
+        function socialLogin(provider) {
+            // In a real app, this would redirect to OAuth flow.
+            // For demo, we simulate a successful login.
+            const demoName = `${provider} User`;
+            const demoInitials = provider.slice(0, 2).toUpperCase();
+            const demoEmail = `user@${provider.toLowerCase()}.com`;
+            loginSuccess(demoName, demoInitials, demoEmail);
+        }
+
+        /* ----- clear error when typing ----- */
+        document.getElementById('email').addEventListener('input', () => {
+            document.getElementById('errorMessage').classList.remove('show');
+        });
+        document.getElementById('password').addEventListener('input', () => {
+            document.getElementById('errorMessage').classList.remove('show');
+        });
+
+        /* ----- account link in header scrolls to auth card ----- */
+        document.getElementById('accountLink').addEventListener('click', (e) => {
+            e.preventDefault();
+            document.querySelector('.auth-card').scrollIntoView({ behavior: 'smooth', block: 'center' });
+        });
+    </script>
+</body>
+</html>
