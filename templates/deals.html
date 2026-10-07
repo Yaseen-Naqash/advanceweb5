@@ -1,0 +1,1939 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>فهرست املاک | املاک آسمان</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    /* ---------- RESET & GLOBAL ---------- */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Vazirmatn', 'Segoe UI', Tahoma, sans-serif;
+    }
+
+    :root {
+      --primary: #1e3a5f;
+      --primary-light: #2c5282;
+      --secondary: #d4a373;
+      --secondary-light: #e9c9a1;
+      --accent: #e07a5f;
+      --bg-light: #f8fafc;
+      --bg-white: #ffffff;
+      --text-dark: #0f172a;
+      --text-muted: #475569;
+      --shadow-sm: 0 4px 12px rgba(0, 0, 0, 0.05);
+      --shadow-md: 0 8px 24px rgba(0, 0, 0, 0.08);
+      --shadow-lg: 0 20px 40px rgba(0, 0, 0, 0.12);
+      --radius: 16px;
+      --radius-sm: 10px;
+    }
+
+    body {
+      background-color: #f1f5f9;
+      color: var(--text-dark);
+      line-height: 1.6;
+      min-height: 100vh;
+    }
+
+    a { text-decoration: none; color: inherit; }
+    ul { list-style: none; }
+    button { font-family: inherit; cursor: pointer; }
+    input, select { font-family: inherit; }
+
+    .container {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 0 1.5rem;
+    }
+
+    /* ---------- HEADER / NAVBAR ---------- */
+    header {
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(10px);
+      box-shadow: var(--shadow-sm);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      border-bottom: 1px solid rgba(212, 163, 115, 0.25);
+    }
+
+    .navbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0.9rem 1.5rem;
+      max-width: 1400px;
+      margin: 0 auto;
+      gap: 1.5rem;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      font-weight: 800;
+      font-size: 1.7rem;
+      color: var(--primary);
+      white-space: nowrap;
+    }
+
+    .logo i { color: var(--secondary); font-size: 1.9rem; }
+    .logo span { color: var(--secondary); font-weight: 400; font-size: 1.25rem; }
+
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+      font-weight: 500;
+      color: var(--text-dark);
+      font-size: 0.95rem;
+    }
+
+    .nav-links a {
+      transition: color 0.2s;
+      position: relative;
+      padding-bottom: 4px;
+    }
+
+    .nav-links a::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      right: 0;
+      width: 0;
+      height: 3px;
+      background: var(--secondary);
+      border-radius: 3px;
+      transition: width 0.25s ease;
+    }
+
+    .nav-links a:hover { color: var(--primary); }
+    .nav-links a:hover::after { width: 100%; }
+    .nav-links a.active { color: var(--primary); font-weight: 700; }
+    .nav-links a.active::after { width: 100%; }
+
+    .nav-actions {
+      display: flex;
+      gap: 0.8rem;
+      align-items: center;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      padding: 0.65rem 1.4rem;
+      border-radius: 40px;
+      font-weight: 600;
+      font-size: 0.9rem;
+      transition: all 0.2s ease;
+      cursor: pointer;
+      border: none;
+      white-space: nowrap;
+    }
+
+    .btn-outline {
+      background: transparent;
+      border: 1.5px solid var(--primary);
+      color: var(--primary);
+    }
+
+    .btn-outline:hover { background: var(--primary); color: white; }
+
+    .btn-primary {
+      background: var(--primary);
+      color: white;
+      box-shadow: 0 6px 14px rgba(30, 58, 95, 0.25);
+    }
+
+    .btn-primary:hover {
+      background: var(--primary-light);
+      transform: translateY(-2px);
+      box-shadow: 0 10px 20px rgba(30, 58, 95, 0.3);
+    }
+
+    /* ---------- PAGE HEADER / BREADCRUMB ---------- */
+    .page-header {
+      background: linear-gradient(135deg, var(--primary) 0%, #152c44 100%);
+      color: white;
+      padding: 2.5rem 0 2rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .page-header::before {
+      content: '';
+      position: absolute;
+      width: 400px;
+      height: 400px;
+      background: radial-gradient(circle, rgba(212, 163, 115, 0.2) 0%, transparent 70%);
+      top: -150px;
+      left: -100px;
+      border-radius: 50%;
+    }
+
+    .page-header .container { position: relative; z-index: 2; }
+
+    .breadcrumb {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      font-size: 0.85rem;
+      opacity: 0.85;
+      margin-bottom: 0.8rem;
+    }
+
+    .breadcrumb i { font-size: 0.7rem; }
+
+    .page-header h1 {
+      font-size: 2rem;
+      font-weight: 800;
+      margin-bottom: 0.4rem;
+    }
+
+    .page-header p {
+      opacity: 0.85;
+      font-size: 0.95rem;
+    }
+
+    /* ---------- SEARCH BAR ---------- */
+    .search-bar-wrap {
+      max-width: 1400px;
+      margin: -1.8rem auto 0;
+      padding: 0 1.5rem;
+      position: relative;
+      z-index: 10;
+    }
+
+    .search-bar {
+      background: white;
+      border-radius: var(--radius);
+      box-shadow: var(--shadow-md);
+      padding: 1rem 1.2rem;
+      display: flex;
+      gap: 0.8rem;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .search-input {
+      flex: 2;
+      min-width: 200px;
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      background: #f1f5f9;
+      border-radius: var(--radius-sm);
+      padding: 0.6rem 1rem;
+    }
+
+    .search-input i { color: var(--text-muted); }
+    .search-input input {
+      border: none;
+      background: transparent;
+      outline: none;
+      width: 100%;
+      font-size: 0.95rem;
+      color: var(--text-dark);
+    }
+
+    .search-select {
+      flex: 1;
+      min-width: 140px;
+      background: #f1f5f9;
+      border-radius: var(--radius-sm);
+      padding: 0.6rem 1rem;
+      border: none;
+      outline: none;
+      font-size: 0.9rem;
+      color: var(--text-dark);
+      cursor: pointer;
+    }
+
+    .search-btn {
+      padding: 0.7rem 1.8rem;
+      background: var(--secondary);
+      color: var(--primary);
+      border-radius: var(--radius-sm);
+      font-weight: 700;
+      border: none;
+      transition: all 0.2s;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .search-btn:hover {
+      background: #c4935a;
+      transform: translateY(-2px);
+    }
+
+    /* ---------- MAIN LAYOUT (SIDEBAR + GRID) ---------- */
+    .main-layout {
+      display: grid;
+      grid-template-columns: 280px 1fr;
+      gap: 2rem;
+      padding: 2.5rem 0 4rem;
+      align-items: start;
+    }
+
+    /* ---------- SIDEBAR FILTERS ---------- */
+    .filters {
+      background: white;
+      border-radius: var(--radius);
+      box-shadow: var(--shadow-sm);
+      padding: 1.5rem;
+      position: sticky;
+      top: 100px;
+    }
+
+    .filters-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 1.5rem;
+      padding-bottom: 1rem;
+      border-bottom: 1px solid #e2e8f0;
+    }
+
+    .filters-header h3 {
+      font-size: 1.1rem;
+      font-weight: 800;
+      color: var(--primary);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .filters-header h3 i { color: var(--secondary); }
+
+    .reset-btn {
+      background: none;
+      border: none;
+      color: var(--accent);
+      font-size: 0.82rem;
+      font-weight: 600;
+      transition: color 0.2s;
+    }
+
+    .reset-btn:hover { color: #c05a3f; }
+
+    .filter-group {
+      margin-bottom: 1.6rem;
+      padding-bottom: 1.6rem;
+      border-bottom: 1px solid #f1f5f9;
+    }
+
+    .filter-group:last-child {
+      border-bottom: none;
+      margin-bottom: 0;
+      padding-bottom: 0;
+    }
+
+    .filter-group h4 {
+      font-size: 0.92rem;
+      font-weight: 700;
+      color: var(--text-dark);
+      margin-bottom: 0.9rem;
+    }
+
+    /* Deal type toggle (buy/rent) */
+    .deal-toggle {
+      display: flex;
+      background: #f1f5f9;
+      border-radius: var(--radius-sm);
+      padding: 0.3rem;
+      gap: 0.2rem;
+    }
+
+    .deal-toggle button {
+      flex: 1;
+      padding: 0.55rem;
+      border: none;
+      background: transparent;
+      border-radius: 8px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      transition: all 0.2s;
+    }
+
+    .deal-toggle button.active {
+      background: var(--primary);
+      color: white;
+      box-shadow: 0 3px 8px rgba(30, 58, 95, 0.25);
+    }
+
+    /* Checkbox list */
+    .check-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0.7rem;
+    }
+
+    .check-item {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      cursor: pointer;
+      font-size: 0.88rem;
+      color: var(--text-muted);
+      transition: color 0.2s;
+      user-select: none;
+    }
+
+    .check-item:hover { color: var(--primary); }
+
+    .check-item input[type="checkbox"] {
+      width: 17px;
+      height: 17px;
+      accent-color: var(--primary);
+      cursor: pointer;
+    }
+
+    .check-item .count {
+      margin-right: auto;
+      font-size: 0.75rem;
+      background: #f1f5f9;
+      color: var(--text-muted);
+      padding: 0.1rem 0.5rem;
+      border-radius: 20px;
+    }
+
+    /* Range slider */
+    .range-wrap {
+      margin-top: 0.5rem;
+    }
+
+    .range-values {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.82rem;
+      color: var(--text-muted);
+      margin-bottom: 0.6rem;
+    }
+
+    .range-values strong { color: var(--primary); font-weight: 700; }
+
+    input[type="range"] {
+      width: 100%;
+      height: 6px;
+      border-radius: 6px;
+      background: #e2e8f0;
+      outline: none;
+      -webkit-appearance: none;
+      appearance: none;
+      cursor: pointer;
+    }
+
+    input[type="range"]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background: var(--secondary);
+      border: 3px solid white;
+      box-shadow: 0 2px 8px rgba(212, 163, 115, 0.5);
+      cursor: pointer;
+      transition: transform 0.15s;
+    }
+
+    input[type="range"]::-webkit-slider-thumb:hover {
+      transform: scale(1.15);
+    }
+
+    input[type="range"]::-moz-range-thumb {
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background: var(--secondary);
+      border: 3px solid white;
+      box-shadow: 0 2px 8px rgba(212, 163, 115, 0.5);
+      cursor: pointer;
+    }
+
+    /* ---------- RESULTS HEADER ---------- */
+    .results-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 1.5rem;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    .results-count {
+      font-size: 0.95rem;
+      color: var(--text-muted);
+    }
+
+    .results-count strong {
+      color: var(--primary);
+      font-weight: 800;
+      font-size: 1.1rem;
+    }
+
+    .sort-wrap {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      font-size: 0.88rem;
+      color: var(--text-muted);
+    }
+
+    .sort-wrap select {
+      padding: 0.5rem 1rem;
+      border-radius: var(--radius-sm);
+      border: 1.5px solid #e2e8f0;
+      background: white;
+      color: var(--text-dark);
+      font-size: 0.88rem;
+      cursor: pointer;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+
+    .sort-wrap select:focus { border-color: var(--primary); }
+
+    /* View toggle (grid/list) */
+    .view-toggle {
+      display: flex;
+      gap: 0.3rem;
+      background: white;
+      border: 1.5px solid #e2e8f0;
+      border-radius: var(--radius-sm);
+      padding: 0.25rem;
+    }
+
+    .view-toggle button {
+      width: 34px;
+      height: 34px;
+      border: none;
+      background: transparent;
+      border-radius: 7px;
+      color: var(--text-muted);
+      font-size: 0.9rem;
+      transition: all 0.2s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .view-toggle button.active {
+      background: var(--primary);
+      color: white;
+    }
+
+    /* ---------- PROPERTY GRID ---------- */
+    .property-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
+      gap: 1.6rem;
+    }
+
+    .property-card {
+      background: white;
+      border-radius: var(--radius);
+      overflow: hidden;
+      box-shadow: var(--shadow-sm);
+      transition: transform 0.25s, box-shadow 0.25s;
+      border: 1px solid #eef2f6;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+    }
+
+    .property-card:hover {
+      transform: translateY(-6px);
+      box-shadow: var(--shadow-md);
+      border-color: var(--secondary-light);
+    }
+
+    .property-img {
+      height: 200px;
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: rgba(255, 255, 255, 0.9);
+      font-size: 3rem;
+      background: #8ba3c7;
+    }
+
+    .property-img img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      position: absolute;
+      inset: 0;
+      transition: transform 0.4s;
+    }
+
+    .property-card:hover .property-img img {
+      transform: scale(1.08);
+    }
+
+    .property-tags {
+      position: absolute;
+      top: 0.9rem;
+      right: 0.9rem;
+      display: flex;
+      gap: 0.4rem;
+      z-index: 2;
+    }
+
+    .tag {
+      padding: 0.28rem 0.8rem;
+      border-radius: 20px;
+      font-size: 0.72rem;
+      font-weight: 700;
+      backdrop-filter: blur(6px);
+    }
+
+    .tag-deal {
+      background: var(--secondary);
+      color: var(--primary);
+    }
+
+    .tag-featured {
+      background: var(--accent);
+      color: white;
+    }
+
+    .tag-new {
+      background: #16a34a;
+      color: white;
+    }
+
+    .fav-btn {
+      position: absolute;
+      top: 0.9rem;
+      left: 0.9rem;
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.9);
+      border: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--text-muted);
+      font-size: 0.95rem;
+      z-index: 2;
+      transition: all 0.2s;
+      backdrop-filter: blur(6px);
+    }
+
+    .fav-btn:hover, .fav-btn.active {
+      background: var(--accent);
+      color: white;
+      transform: scale(1.1);
+    }
+
+    .property-body {
+      padding: 1.2rem;
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+    }
+
+    .property-title {
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--primary);
+      margin-bottom: 0.4rem;
+      line-height: 1.5;
+    }
+
+    .property-location {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      margin-bottom: 0.9rem;
+    }
+
+    .property-location i { color: var(--secondary); }
+
+    .property-features {
+      display: flex;
+      gap: 0.9rem;
+      flex-wrap: wrap;
+      margin-bottom: 1rem;
+      padding-bottom: 1rem;
+      border-bottom: 1px solid #f1f5f9;
+      font-size: 0.82rem;
+      color: var(--text-muted);
+    }
+
+    .property-features span {
+      display: flex;
+      align-items: center;
+      gap: 0.3rem;
+    }
+
+    .property-features i { color: var(--secondary); font-size: 0.85rem; }
+
+    .property-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: auto;
+      gap: 0.5rem;
+    }
+
+    .price {
+      font-weight: 800;
+      color: var(--primary);
+      font-size: 1.05rem;
+      line-height: 1.4;
+    }
+
+    .price span {
+      font-size: 0.78rem;
+      font-weight: 400;
+      color: var(--text-muted);
+      display: block;
+    }
+
+    .detail-btn {
+      padding: 0.55rem 1.1rem;
+      background: var(--primary);
+      color: white;
+      border: none;
+      border-radius: var(--radius-sm);
+      font-size: 0.82rem;
+      font-weight: 600;
+      transition: all 0.2s;
+      white-space: nowrap;
+      display: flex;
+      align-items: center;
+      gap: 0.3rem;
+    }
+
+    .detail-btn:hover {
+      background: var(--secondary);
+      color: var(--primary);
+      transform: translateY(-2px);
+    }
+
+    /* ---------- PAGINATION ---------- */
+    .pagination {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 0.5rem;
+      margin-top: 3rem;
+      flex-wrap: wrap;
+    }
+
+    .page-btn {
+      min-width: 42px;
+      height: 42px;
+      padding: 0 0.8rem;
+      border-radius: var(--radius-sm);
+      border: 1.5px solid #e2e8f0;
+      background: white;
+      color: var(--text-dark);
+      font-weight: 600;
+      font-size: 0.9rem;
+      transition: all 0.2s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .page-btn:hover:not(:disabled) {
+      border-color: var(--primary);
+      color: var(--primary);
+    }
+
+    .page-btn.active {
+      background: var(--primary);
+      color: white;
+      border-color: var(--primary);
+      box-shadow: 0 6px 14px rgba(30, 58, 95, 0.25);
+    }
+
+    .page-btn:disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+    }
+
+    /* ---------- NO RESULTS ---------- */
+    .no-results {
+      display: none;
+      text-align: center;
+      padding: 4rem 1.5rem;
+      background: white;
+      border-radius: var(--radius);
+      box-shadow: var(--shadow-sm);
+    }
+
+    .no-results i {
+      font-size: 3.5rem;
+      color: #cbd5e1;
+      margin-bottom: 1rem;
+    }
+
+    .no-results h3 {
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: var(--primary);
+      margin-bottom: 0.5rem;
+    }
+
+    .no-results p {
+      color: var(--text-muted);
+      font-size: 0.95rem;
+    }
+
+    /* ---------- CTA BANNER ---------- */
+    .cta-banner {
+      max-width: 1300px;
+      margin: 2rem auto 4rem;
+      background: linear-gradient(135deg, var(--primary) 0%, #152c44 100%);
+      border-radius: 30px;
+      padding: 2.5rem 2.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 1.5rem;
+      color: white;
+      box-shadow: var(--shadow-lg);
+    }
+
+    .cta-banner h2 {
+      font-size: 1.7rem;
+      font-weight: 800;
+      margin-bottom: 0.4rem;
+    }
+
+    .cta-banner p { opacity: 0.9; font-size: 0.98rem; }
+
+    .cta-banner .btn-secondary {
+      background: var(--secondary);
+      color: var(--primary);
+      font-weight: 800;
+      padding: 0.85rem 2.2rem;
+      font-size: 1rem;
+      border-radius: 40px;
+      border: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      transition: all 0.2s;
+      box-shadow: 0 6px 14px rgba(212, 163, 115, 0.35);
+    }
+
+    .cta-banner .btn-secondary:hover {
+      background: #c4935a;
+      transform: translateY(-2px);
+    }
+
+    /* ---------- FOOTER ---------- */
+    footer {
+      background: #0b1a2b;
+      color: #cbd5e1;
+      padding: 3rem 1.5rem 1.5rem;
+    }
+
+    .footer-grid {
+      max-width: 1300px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 2.5rem;
+    }
+
+    .footer-col h4 {
+      color: white;
+      font-weight: 700;
+      font-size: 1.05rem;
+      margin-bottom: 1.2rem;
+      position: relative;
+    }
+
+    .footer-col h4::after {
+      content: '';
+      position: absolute;
+      bottom: -6px;
+      right: 0;
+      width: 35px;
+      height: 3px;
+      background: var(--secondary);
+      border-radius: 3px;
+    }
+
+    .footer-col p, .footer-col li {
+      margin-bottom: 0.7rem;
+      font-size: 0.88rem;
+      opacity: 0.8;
+    }
+
+    .footer-col a:hover { color: var(--secondary); }
+
+    .social-icons {
+      display: flex;
+      gap: 0.8rem;
+      margin-top: 1rem;
+    }
+
+    .social-icons a {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 38px;
+      height: 38px;
+      background: rgba(255, 255, 255, 0.08);
+      border-radius: 50%;
+      transition: all 0.2s;
+    }
+
+    .social-icons a:hover {
+      background: var(--secondary);
+      color: var(--primary);
+      transform: translateY(-3px);
+    }
+
+    .footer-bottom {
+      max-width: 1300px;
+      margin: 2.5rem auto 0;
+      padding-top: 1.5rem;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+      text-align: center;
+      font-size: 0.85rem;
+      opacity: 0.7;
+    }
+
+    /* ---------- RESPONSIVE ---------- */
+    @media (max-width: 1024px) {
+      .main-layout {
+        grid-template-columns: 240px 1fr;
+        gap: 1.5rem;
+      }
+    }
+
+    @media (max-width: 850px) {
+      .navbar {
+        flex-wrap: wrap;
+        gap: 1rem;
+      }
+      .nav-links {
+        order: 3;
+        width: 100%;
+        justify-content: center;
+        gap: 1.5rem;
+        font-size: 0.88rem;
+      }
+      .main-layout {
+        grid-template-columns: 1fr;
+      }
+      .filters {
+        position: static;
+      }
+      .page-header h1 { font-size: 1.6rem; }
+    }
+
+    @media (max-width: 600px) {
+      .search-bar {
+        padding: 0.8rem;
+      }
+      .search-input, .search-select, .search-btn {
+        flex: 1 1 100%;
+      }
+      .property-grid {
+        grid-template-columns: 1fr;
+      }
+      .cta-banner {
+        padding: 1.8rem 1.5rem;
+        text-align: center;
+        justify-content: center;
+      }
+      .cta-banner h2 { font-size: 1.4rem; }
+      .logo { font-size: 1.3rem; }
+      .logo i { font-size: 1.5rem; }
+      .logo span { font-size: 1rem; }
+      .btn { padding: 0.55rem 1rem; font-size: 0.82rem; }
+      .results-header {
+        justify-content: center;
+      }
+    }
+
+    /* ---------- MISC ---------- */
+    .fade-in {
+      animation: fadeIn 0.5s ease forwards;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* List view mode */
+    .property-grid.list-view {
+      grid-template-columns: 1fr;
+    }
+
+    .property-grid.list-view .property-card {
+      flex-direction: row;
+    }
+
+    .property-grid.list-view .property-img {
+      width: 280px;
+      height: auto;
+      min-height: 200px;
+      flex-shrink: 0;
+    }
+
+    @media (max-width: 700px) {
+      .property-grid.list-view .property-card {
+        flex-direction: column;
+      }
+      .property-grid.list-view .property-img {
+        width: 100%;
+        height: 200px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ================= HEADER ================= -->
+  <header>
+    <nav class="navbar">
+      <a href="#" class="logo">
+        <i class="fas fa-building"></i>
+        املاک آسمان <span>| مشاور املاک</span>
+      </a>
+      <ul class="nav-links">
+        <li><a href="#">خانه</a></li>
+        <li><a href="#" class="active">املاک</a></li>
+        <li><a href="#">مشاوران</a></li>
+        <li><a href="#">درباره ما</a></li>
+        <li><a href="#">تماس</a></li>
+      </ul>
+      <div class="nav-actions">
+        <a href="#" class="btn btn-outline"><i class="fas fa-user"></i> ورود</a>
+        <a href="#" class="btn btn-primary"><i class="fas fa-plus-circle"></i> ثبت ملک</a>
+      </div>
+    </nav>
+  </header>
+
+  <main>
+    <!-- ================= PAGE HEADER ================= -->
+    <section class="page-header">
+      <div class="container">
+        <div class="breadcrumb">
+          <a href="#">خانه</a>
+          <i class="fas fa-chevron-left"></i>
+          <span>فهرست املاک</span>
+        </div>
+        <h1>فهرست املاک موجود</h1>
+        <p>جستجو در میان هزاران ملک مسکونی، تجاری و اداری در سراسر ایران</p>
+      </div>
+    </section>
+
+    <!-- ================= SEARCH BAR ================= -->\
+    <form action="#">
+    <div class="search-bar-wrap">
+      <div class="search-bar">
+        <div class="search-input">
+          <i class="fas fa-search"></i>
+          <input type="text" id="searchInput" name="q" placeholder="جستجو بر اساس عنوان، محله یا شهر...">
+        </div>
+        <select class="search-select" id="citySelect" name="city">
+          <option value="">همه شهرها</option>
+          {% for city in cities %}
+          <option value="{{city.title}}">{{city.title}}</option>
+
+          {% endfor %}
+        </select>
+        <select class="search-select" id="typeSelect" name="type">
+          <option value="">همه انواع</option>
+          {% for type in type %}
+          <option value="{{type}}">{{type}}</option>
+
+          {% endfor %}
+        </select>
+        <button class="search-btn" id="searchBtn">
+          <i class="fas fa-search"></i>
+          جستجو
+        </button>
+      </div>
+    </div>
+
+    <!-- ================= MAIN LAYOUT ================= -->
+    <div class="container">
+      <div class="main-layout">
+
+        <!-- ---------- SIDEBAR FILTERS ---------- -->
+        <aside class="filters">
+          <div class="filters-header">
+            <h3><i class="fas fa-sliders-h"></i> فیلترها</h3>
+            <button class="reset-btn" id="resetFilters">پاک کردن همه</button>
+          </div>
+
+          <!-- Deal type -->
+          <div class="filter-group">
+            <h4>نوع معامله</h4>
+            <div class="deal-toggle" id="dealToggle">
+              <button class="active" data-deal="all"  id="all">همه</button>
+              <input type="hidden" value="" name="deal_type" id="inputAll">
+              <button data-deal="buy" id="buy">خرید</button>
+              <input type="hidden" value="" name="deal_type"  id="inputbuy">
+              <button data-deal="rent" id="rent">اجاره</button>
+              <input type="hidden" value="rent" name="deal_type"  id="inputrent">
+            </div>
+          </div>
+
+          <!-- Property type -->
+          <div class="filter-group">
+            <h4>نوع ملک</h4>
+            <div class="check-list" id="propertyTypeFilters">
+
+
+              {% for in type in types %}
+              <label class="check-item">
+                <input type="checkbox" value="{{type}}" name="type">
+                <span>{{type}}</span>
+                <span class="count">۷</span>
+              </label>
+              {% endfor %}
+            </div>
+          </div>
+
+          <!-- Bedrooms -->
+          <div class="filter-group">
+            <h4>تعداد خواب</h4>
+            <div class="check-list">
+              <label class="check-item">
+                <input type="text" value="rooms">
+                <span>تعداد خواب</span>
+              </label>
+
+            </div>
+          </div>
+
+          <!-- Price range -->
+          <div class="filter-group">
+            <h4>حداکثر قیمت (میلیون تومان)</h4>
+            <div class="range-wrap">
+              <div class="range-values">
+                <span>۰</span>
+                <strong id="priceValue">۵۰,۰۰۰</strong>
+              </div>
+              <input type="range" id="priceRange" min="0" max="100000" value="50000" step="1000">
+            </div>
+          </div>
+
+          <!-- Area range -->
+          <div class="filter-group">
+            <h4>حداقل متراژ (متر مربع)</h4>
+            <div class="range-wrap">
+              <div class="range-values">
+                <span>۰</span>
+                <strong id="areaValue">۱۰۰</strong>
+              </div>
+              <input type="range" id="areaRange" min="0" max="500" value="100" step="10">
+            </div>
+          </div>
+
+          <!-- Amenities -->
+          <div class="filter-group">
+            <h4>امکانات</h4>
+            <div class="check-list">
+              <label class="check-item">
+                <input type="checkbox" value="parking">
+                <span>پارکینگ</span>
+              </label>
+              <label class="check-item">
+                <input type="checkbox" value="elevator">
+                <span>آسانسور</span>
+              </label>
+              <label class="check-item">
+                <input type="checkbox" value="storage">
+                <span>انبار</span>
+              </label>
+              <label class="check-item">
+                <input type="checkbox" value="balcony">
+                <span>بالکن</span>
+              </label>
+              <label class="check-item">
+                <input type="checkbox" value="pool">
+                <span>استخر</span>
+              </label>
+            </div>
+          </div>
+        </aside>
+        
+
+        </form>
+
+        <!-- ---------- PROPERTIES GRID ---------- -->
+        <section>
+          <div class="results-header">
+            <div class="results-count">
+              نمایش <strong id="resultCount">۹</strong> ملک از مجموع ۱۰۴ ملک
+            </div>
+            <div style="display: flex; align-items: center; gap: 1rem;">
+              <div class="sort-wrap">
+                <label for="sortSelect">مرتب‌سازی:</label>
+                <select id="sortSelect">
+                  <option value="newest">جدیدترین</option>
+                  <option value="cheapest">ارزان‌ترین</option>
+                  <option value="expensive">گران‌ترین</option>
+                  <option value="largest">بزرگ‌ترین متراژ</option>
+                </select>
+              </div>
+              <div class="view-toggle" id="viewToggle">
+                <button class="active" data-view="grid" aria-label="نمایش شبکه‌ای">
+                  <i class="fas fa-th-large"></i>
+                </button>
+                <button data-view="list" aria-label="نمایش لیستی">
+                  <i class="fas fa-list"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Property grid -->
+          <div class="property-grid" id="propertyGrid">
+
+            <!-- Property 1 -->
+            <div class="property-card" data-deal="buy" data-type="apartment" data-price="22500" data-area="120" data-rooms="3" data-city="tehran" data-newest="1">
+              <div class="property-img">
+                <img src="https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="آپارتمان سعادت‌آباد" loading="lazy">
+                <div class="property-tags">
+                  <span class="tag tag-deal">فروش</span>
+                  <span class="tag tag-featured">ویژه</span>
+                </div>
+                <button class="fav-btn" aria-label="افزودن به علاقه‌مندی"><i class="far fa-heart"></i></button>
+              </div>
+              <div class="property-body">
+                <h3 class="property-title">آپارتمان ۱۲۰ متری، سعادت‌آباد</h3>
+                <div class="property-location">
+                  <i class="fas fa-map-marker-alt"></i>
+                  تهران، سعادت‌آباد
+                </div>
+                <div class="property-features">
+                  <span><i class="fas fa-bed"></i> ۳ خواب</span>
+                  <span><i class="fas fa-bath"></i> ۲ سرویس</span>
+                  <span><i class="fas fa-car"></i> پارکینگ</span>
+                  <span><i class="fas fa-ruler-combined"></i> ۱۲۰ متر</span>
+                </div>
+                <div class="property-footer">
+                  <div class="price">
+                    ۲۲,۵۰۰,۰۰۰,۰۰۰
+                    <span>تومان</span>
+                  </div>
+                  <a href="#" class="detail-btn">
+                    جزئیات <i class="fas fa-arrow-left"></i>
+                  </a>
+                </div>
+              </div>
+            </div>
+
+            <!-- Property 2 -->
+            <div class="property-card" data-deal="rent" data-type="villa" data-price="85" data-area="350" data-rooms="4" data-city="tehran" data-newest="2">
+              <div class="property-img">
+                <img src="https://images.unsplash.com/photo-1613490493576-7fde63acd811?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="ویلا لواسان" loading="lazy">
+                <div class="property-tags">
+                  <span class="tag tag-deal">اجاره</span>
+                </div>
+                <button class="fav-btn" aria-label="افزودن به علاقه‌مندی"><i class="far fa-heart"></i></button>
+              </div>
+              <div class="property-body">
+                <h3 class="property-title">ویلای دوبلکس، لواسان</h3>
+                <div class="property-location">
+                  <i class="fas fa-map-marker-alt"></i>
+                  تهران، لواسان
+                </div>
+                <div class="property-features">
+                  <span><i class="fas fa-bed"></i> ۴ خواب</span>
+                  <span><i class="fas fa-bath"></i> ۳ سرویس</span>
+                  <span><i class="fas fa-tree"></i> حیاط</span>
+                  <span><i class="fas fa-ruler-combined"></i> ۳۵۰ متر</span>
+                </div>
+                <div class="property-footer">
+                  <div class="price">
+                    ۸۵,۰۰۰,۰۰۰
+                    <span>تومان / ماهانه</span>
+                  </div>
+                  <a href="#" class="detail-btn">
+                    جزئیات <i class="fas fa-arrow-left"></i>
+                  </a>
+                </div>
+              </div>
+            </div>
+
+            <!-- Property 3 -->
+            <div class="property-card" data-deal="buy" data-type="commercial" data-price="15800" data-area="45" data-rooms="0" data-city="tehran" data-newest="3">
+              <div class="property-img">
+                <img src="https://images.unsplash.com/photo-1497366754035-f200968a6e72?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="مغازه بازار" loading="lazy">
+                <div class="property-tags">
+                  <span class="tag tag-deal">فروش</span>
+                  <span class="tag tag-new">جدید</span>
+                </div>
+                <button class="fav-btn" aria-label="افزودن به علاقه‌مندی"><i class="far fa-heart"></i></button>
+              </div>
+              <div class="property-body">
+                <h3 class="property-title">مغازه ۴۵ متری، بازار تهران</h3>
+                <div class="property-location">
+                  <i class="fas fa-map-marker-alt"></i>
+                  تهران، بازار
+                </div>
+                <div class="property-features">
+                  <span><i class="fas fa-ruler-combined"></i> ۴۵ متر</span>
+                  <span><i class="fas fa-door-open"></i> دو نبش</span>
+                  <span><i class="fas fa-warehouse"></i> انبار</span>
+                </div>
+                <div class="property-footer">
+                  <div class="price">
+                    ۱۵,۸۰۰,۰۰۰,۰۰۰
+                    <span>تومان</span>
+                  </div>
+                  <a href="#" class="detail-btn">
+                    جزئیات <i class="fas fa-arrow-left"></i>
+                  </a>
+                </div>
+              </div>
+            </div>
+
+            <!-- Property 4 -->
+            <div class="property-card" data-deal="buy" data-type="apartment" data-price="9800" data-area="95" data-rooms="2" data-city="karaj" data-newest="4">
+              <div class="property-img">
+                <img src="https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="آپارتمان کرج" loading="lazy">
+                <div class="property-tags">
+                  <span class="tag tag-deal">فروش</span>
+                </div>
+                <button class="fav-btn" aria-label="افزودن به علاقه‌مندی"><i class="far fa-heart"></i></button>
+              </div>
+              <div class="property-body">
+                <h3 class="property-title">آپارتمان ۹۵ متری، عظیمیه کرج</h3>
+                <div class="property-location">
+                  <i class="fas fa-map-marker-alt"></i>
+                  کرج، عظیمیه
+                </div>
+                <div class="property-features">
+                  <span><i class="fas fa-bed"></i> ۲ خواب</span>
+                  <span><i class="fas fa-bath"></i> ۱ سرویس</span>
+                  <span><i class="fas fa-car"></i> پارکینگ</span>
+                  <span><i class="fas fa-ruler-combined"></i> ۹۵ متر</span>
+                </div>
+                <div class="property-footer">
+                  <div class="price">
+                    ۹,۸۰۰,۰۰۰,۰۰۰
+                    <span>تومان</span>
+                  </div>
+                  <a href="#" class="detail-btn">
+                    جزئیات <i class="fas fa-arrow-left"></i>
+                  </a>
+                </div>
+              </div>
+            </div>
+
+            <!-- Property 5 -->
+            <div class="property-card" data-deal="rent" data-type="office" data-price="45" data-area="80" data-rooms="0" data-city="tehran" data-newest="5">
+              <div class="property-img">
+                <img src="https://images.unsplash.com/photo-1497366216548-37526070297c?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="دفتر اداری" loading="lazy">
+                <div class="property-tags">
+                  <span class="tag tag-deal">اجاره</span>
+                </div>
+                <button class="fav-btn" aria-label="افزودن به علاقه‌مندی"><i class="far fa-heart"></i></button>
+              </div>
+              <div class="property-body">
+                <h3 class="property-title">دفتر اداری ۸۰ متری، ونک</h3>
+                <div class="property-location">
+                  <i class="fas fa-map-marker-alt"></i>
+                  تهران، ونک
+                </div>
+                <div class="property-features">
+                  <span><i class="fas fa-ruler-combined"></i> ۸۰ متر</span>
+                  <span><i class="fas fa-elevator"></i> آسانسور</span>
+                  <span><i class="fas fa-snowflake"></i> سرمایش</span>
+                </div>
+                <div class="property-footer">
+                  <div class="price">
+                    ۴۵,۰۰۰,۰۰۰
+                    <span>تومان / ماهانه</span>
+                  </div>
+                  <a href="#" class="detail-btn">
+                    جزئیات <i class="fas fa-arrow-left"></i>
+                  </a>
+                </div>
+              </div>
+            </div>
+
+            <!-- Property 6 -->
+            <div class="property-card" data-deal="buy" data-type="villa" data-price="45000" data-area="500" data-rooms="5" data-city="mashhad" data-newest="6">
+              <div class="property-img">
+                <img src="https://images.unsplash.com/photo-1568605114967-8130f3a36994?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="ویلا مشهد" loading="lazy">
+                <div class="property-tags">
+                  <span class="tag tag-deal">فروش</span>
+                  <span class="tag tag-featured">ویژه</span>
+                </div>
+                <button class="fav-btn" aria-label="افزودن به علاقه‌مندی"><i class="far fa-heart"></i></button>
+              </div>
+              <div class="property-body">
+                <h3 class="property-title">ویلا باغ ۵۰۰ متری، شاندیز</h3>
+                <div class="property-location">
+                  <i class="fas fa-map-marker-alt"></i>
+                  مشهد، شاندیز
+                </div>
+                <div class="property-features">
+                  <span><i class="fas fa-bed"></i> ۵ خواب</span>
+                  <span><i class="fas fa-bath"></i> ۴ سرویس</span>
+                  <span><i class="fas fa-swimming-pool"></i> استخر</span>
+                  <span><i class="fas fa-ruler-combined"></i> ۵۰۰ متر</span>
+                </div>
+                <div class="property-footer">
+                  <div class="price">
+                    ۴۵,۰۰۰,۰۰۰,۰۰۰
+                    <span>تومان</span>
+                  </div>
+                  <a href="#" class="detail-btn">
+                    جزئیات <i class="fas fa-arrow-left"></i>
+                  </a>
+                </div>
+              </div>
+            </div>
+
+            <!-- Property 7 -->
+            <div class="property-card" data-deal="buy" data-type="apartment" data-price="7200" data-area="75" data-rooms="2" data-city="isfahan" data-newest="7">
+              <div class="property-img">
+                <img src="https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="آپارتمان اصفهان" loading="lazy">
+                <div class="property-tags">
+                  <span class="tag tag-deal">فروش</span>
+                </div>
+                <button class="fav-btn" aria-label="افزودن به علاقه‌مندی"><i class="far fa-heart"></i></button>
+              </div>
+              <div class="property-body">
+                <h3 class="property-title">آپارتمان ۷۵ متری، مرداویج</h3>
+                <div class="property-location">
+                  <i class="fas fa-map-marker-alt"></i>
+                  اصفهان، مرداویج
+                </div>
+                <div class="property-features">
+                  <span><i class="fas fa-bed"></i> ۲ خواب</span>
+                  <span><i class="fas fa-bath"></i> ۱ سرویس</span>
+                  <span><i class="fas fa-elevator"></i> آسانسور</span>
+                  <span><i class="fas fa-ruler-combined"></i> ۷۵ متر</span>
+                </div>
+                <div class="property-footer">
+                  <div class="price">
+                    ۷,۲۰۰,۰۰۰,۰۰۰
+                    <span>تومان</span>
+                  </div>
+                  <a href="#" class="detail-btn">
+                    جزئیات <i class="fas fa-arrow-left"></i>
+                  </a>
+                </div>
+              </div>
+            </div>
+
+            <!-- Property 8 -->
+            <div class="property-card" data-deal="rent" data-type="apartment" data-price="35" data-area="110" data-rooms="3" data-city="shiraz" data-newest="8">
+              <div class="property-img">
+                <img src="https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="آپارتمان شیراز" loading="lazy">
+                <div class="property-tags">
+                  <span class="tag tag-deal">اجاره</span>
+                  <span class="tag tag-new">جدید</span>
+                </div>
+                <button class="fav-btn" aria-label="افزودن به علاقه‌مندی"><i class="far fa-heart"></i></button>
+              </div>
+              <div class="property-body">
+                <h3 class="property-title">آپارتمان ۱۱۰ متری، معالی‌آباد</h3>
+                <div class="property-location">
+                  <i class="fas fa-map-marker-alt"></i>
+                  شیراز، معالی‌آباد
+                </div>
+                <div class="property-features">
+                  <span><i class="fas fa-bed"></i> ۳ خواب</span>
+                  <span><i class="fas fa-bath"></i> ۲ سرویس</span>
+                  <span><i class="fas fa-car"></i> پارکینگ</span>
+                  <span><i class="fas fa-ruler-combined"></i> ۱۱۰ متر</span>
+                </div>
+                <div class="property-footer">
+                  <div class="price">
+                    ۳۵,۰۰۰,۰۰۰
+                    <span>تومان / ماهانه</span>
+                  </div>
+                  <a href="#" class="detail-btn">
+                    جزئیات <i class="fas fa-arrow-left"></i>
+                  </a>
+                </div>
+              </div>
+            </div>
+
+            <!-- Property 9 -->
+            <div class="property-card" data-deal="buy" data-type="land" data-price="12000" data-area="300" data-rooms="0" data-city="tabriz" data-newest="9">
+              <div class="property-img">
+                <img src="https://images.unsplash.com/photo-1500382017468-9049fed747ef?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="زمین تبریز" loading="lazy">
+                <div class="property-tags">
+                  <span class="tag tag-deal">فروش</span>
+                </div>
+                <button class="fav-btn" aria-label="افزودن به علاقه‌مندی"><i class="far fa-heart"></i></button>
+              </div>
+              <div class="property-body">
+                <h3 class="property-title">زمین ۳۰۰ متری، ولیعصر تبریز</h3>
+                <div class="property-location">
+                  <i class="fas fa-map-marker-alt"></i>
+                  تبریز، ولیعصر
+                </div>
+                <div class="property-features">
+                  <span><i class="fas fa-ruler-combined"></i> ۳۰۰ متر</span>
+                  <span><i class="fas fa-file-signature"></i> سند تک‌برگ</span>
+                  <span><i class="fas fa-road"></i> بر خیابان</span>
+                </div>
+                <div class="property-footer">
+                  <div class="price">
+                    ۱۲,۰۰۰,۰۰۰,۰۰۰
+                    <span>تومان</span>
+                  </div>
+                  <a href="#" class="detail-btn">
+                    جزئیات <i class="fas fa-arrow-left"></i>
+                  </a>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- No results -->
+          <div class="no-results" id="noResults">
+            <i class="fas fa-search-minus"></i>
+            <h3>ملکی با این مشخصات یافت نشد</h3>
+            <p>لطفاً فیلترها را تغییر دهید یا جستجوی خود را گسترش دهید.</p>
+          </div>
+
+          <!-- Pagination -->
+          <div class="pagination" id="pagination">
+            <button class="page-btn" disabled><i class="fas fa-chevron-right"></i></button>
+            <button class="page-btn active">۱</button>
+            <button class="page-btn">۲</button>
+            <button class="page-btn">۳</button>
+            <button class="page-btn">۴</button>
+            <span style="color: var(--text-muted); padding: 0 0.5rem;">...</span>
+            <button class="page-btn">۱۲</button>
+            <button class="page-btn"><i class="fas fa-chevron-left"></i></button>
+          </div>
+        </section>
+
+      </div>
+    </div>
+
+    <!-- ================= CTA BANNER ================= -->
+    <div class="cta-banner">
+      <div>
+        <h2>ملک خود را برای فروش یا اجاره ثبت کنید</h2>
+        <p>با ثبت ملک در املاک آسمان، هزاران خریدار و مستأجر آن را می‌بینند.</p>
+      </div>
+      <a href="#" class="btn-secondary">
+        <i class="fas fa-plus-circle"></i>
+        ثبت رایگان ملک
+      </a>
+    </div>
+  </main>
+
+  <!-- ================= FOOTER ================= -->
+  <footer>
+    <div class="footer-grid">
+      <div class="footer-col">
+        <h4>املاک آسمان</h4>
+        <p>مشاور املاک هوشمند در ایران، با سال‌ها تجربه در خرید، فروش و اجاره ملک.</p>
+        <div class="social-icons">
+          <a href="#"><i class="fab fa-instagram"></i></a>
+          <a href="#"><i class="fab fa-telegram"></i></a>
+          <a href="#"><i class="fab fa-whatsapp"></i></a>
+          <a href="#"><i class="fab fa-linkedin-in"></i></a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h4>دسترسی سریع</h4>
+        <ul>
+          <li><a href="#">خرید ملک</a></li>
+          <li><a href="#">اجاره ملک</a></li>
+          <li><a href="#">ثبت ملک</a></li>
+          <li><a href="#">مشاوران</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>خدمات</h4>
+        <ul>
+          <li><a href="#">مشاوره حقوقی</a></li>
+          <li><a href="#">ارزیابی ملک</a></li>
+          <li><a href="#">قرارداد آنلاین</a></li>
+          <li><a href="#">تحلیل بازار</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>تماس با ما</h4>
+        <p><i class="fas fa-map-marker-alt" style="margin-left: 0.5rem;"></i> تهران، خیابان ولیعصر، پلاک ۱۲</p>
+        <p><i class="fas fa-phone" style="margin-left: 0.5rem;"></i> ۰۲۱-۱۲۳۴۵۶۷۸</p>
+        <p><i class="fas fa-envelope" style="margin-left: 0.5rem;"></i> info@asemanamlak.ir</p>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© ۱۴۰۴ املاک آسمان | تمامی حقوق محفوظ است.</p>
+    </div>
+  </footer>
+
+  <script>
+    (function () {
+      // ============================================
+      // ELEMENTS
+      // ============================================
+      const propertyGrid = document.getElementById('propertyGrid');
+      const propertyCards = Array.from(propertyGrid.querySelectorAll('.property-card'));
+      const resultCount = document.getElementById('resultCount');
+      const noResults = document.getElementById('noResults');
+      const pagination = document.getElementById('pagination');
+
+      const searchInput = document.getElementById('searchInput');
+      const citySelect = document.getElementById('citySelect');
+      const typeSelect = document.getElementById('typeSelect');
+      const searchBtn = document.getElementById('searchBtn');
+      const sortSelect = document.getElementById('sortSelect');
+
+      const dealToggle = document.getElementById('dealToggle');
+      const propertyTypeFilters = document.getElementById('propertyTypeFilters');
+      const priceRange = document.getElementById('priceRange');
+      const priceValue = document.getElementById('priceValue');
+      const areaRange = document.getElementById('areaRange');
+      const areaValue = document.getElementById('areaValue');
+      const resetFiltersBtn = document.getElementById('resetFilters');
+
+      const viewToggle = document.getElementById('viewToggle');
+
+      // Amenities checkboxes (using all checkboxes in the sidebar except type)
+      const allCheckboxes = document.querySelectorAll('.filters input[type="checkbox"]');
+
+      // Current deal type state
+      let currentDeal = 'all';
+
+      // ============================================
+      // FORMAT PERSIAN NUMBERS
+      // ============================================
+      function toPersianNum(num) {
+        const persianDigits = ['۰', '۱', '۲', '۳', '۴', '۵', '۶', '۷', '۸', '۹'];
+        return String(num).replace(/\d/g, (d) => persianDigits[d]);
+      }
+
+      function formatPrice(num) {
+        return toPersianNum(num.toLocaleString('en-US'));
+      }
+
+      // ============================================
+      // PRICE RANGE SLIDER
+      // ============================================
+      priceRange.addEventListener('input', function () {
+        priceValue.textContent = formatPrice(parseInt(this.value));
+      });
+
+      areaRange.addEventListener('input', function () {
+        areaValue.textContent = toPersianNum(this.value);
+      });
+
+      // ============================================
+      // DEAL TYPE TOGGLE
+      // ============================================
+      dealToggle.querySelectorAll('button').forEach((btn) => {
+        btn.addEventListener('click', function () {
+          dealToggle.querySelectorAll('button').forEach((b) => b.classList.remove('active'));
+          this.classList.add('active');
+          currentDeal = this.getAttribute('data-deal');
+          applyFilters();
+        });
+      });
+
+      // ============================================
+      // VIEW TOGGLE (GRID / LIST)
+      // ============================================
+      viewToggle.querySelectorAll('button').forEach((btn) => {
+        btn.addEventListener('click', function () {
+          viewToggle.querySelectorAll('button').forEach((b) => b.classList.remove('active'));
+          this.classList.add('active');
+          const view = this.getAttribute('data-view');
+          if (view === 'list') {
+            propertyGrid.classList.add('list-view');
+          } else {
+            propertyGrid.classList.remove('list-view');
+          }
+        });
+      });
+
+      // ============================================
+      // FAVORITE BUTTON
+      // ============================================
+      document.querySelectorAll('.fav-btn').forEach((btn) => {
+        btn.addEventListener('click', function (e) {
+          e.preventDefault();
+          this.classList.toggle('active');
+          const icon = this.querySelector('i');
+          if (this.classList.contains('active')) {
+            icon.classList.remove('far');
+            icon.classList.add('fas');
+          } else {
+            icon.classList.remove('fas');
+            icon.classList.add('far');
+          }
+        });
+      });
+
+      // ============================================
+      // FILTER LOGIC
+      // ============================================
+      function applyFilters() {
+        const searchTerm = searchInput.value.trim().toLowerCase();
+        const selectedCity = citySelect.value;
+        const selectedType = typeSelect.value;
+
+        // Get selected property types
+        const selectedTypes = Array.from(
+          propertyTypeFilters.querySelectorAll('input:checked')
+        ).map((cb) => cb.value);
+
+        // Get selected room counts (2nd filter group - bedrooms)
+        const bedroomGroup = document.querySelectorAll('.filter-group')[2];
+        const selectedRooms = Array.from(
+          bedroomGroup.querySelectorAll('input:checked')
+        ).map((cb) => parseInt(cb.value));
+
+        // Get selected amenities (last filter group)
+        const amenitiesGroup = document.querySelectorAll('.filter-group')[4];
+        const selectedAmenities = Array.from(
+          amenitiesGroup.querySelectorAll('input:checked')
+        ).map((cb) => cb.value);
+
+        const maxPrice = parseInt(priceRange.value);
+        const minArea = parseInt(areaRange.value);
+
+        let visibleCount = 0;
+
+        propertyCards.forEach((card) => {
+          const title = card.querySelector('.property-title').textContent.toLowerCase();
+          const location = card.querySelector('.property-location').textContent.toLowerCase();
+          const deal = card.getAttribute('data-deal');
+          const type = card.getAttribute('data-type');
+          const price = parseInt(card.getAttribute('data-price'));
+          const area = parseInt(card.getAttribute('data-area'));
+          const rooms = parseInt(card.getAttribute('data-rooms'));
+          const city = card.getAttribute('data-city');
+          const features = card.querySelector('.property-features').textContent.toLowerCase();
+
+          let visible = true;
+
+          // Deal filter
+          if (currentDeal !== 'all' && deal !== currentDeal) visible = false;
+
+          // Search term
+          if (searchTerm && !title.includes(searchTerm) && !location.includes(searchTerm)) {
+            visible = false;
+          }
+
+          // City filter
+          if (selectedCity && city !== selectedCity) visible = false;
+
+          // Type filter (top search bar)
+          if (selectedType && type !== selectedType) visible = false;
+
+          // Property type checkboxes
+          if (selectedTypes.length > 0 && !selectedTypes.includes(type)) visible = false;
+
+          // Bedrooms filter
+          if (selectedRooms.length > 0) {
+            const roomMatch = selectedRooms.some((r) => {
+              if (r === 4) return rooms >= 4;
+              return rooms === r;
+            });
+            if (!roomMatch) visible = false;
+          }
+
+          // Amenities filter
+          if (selectedAmenities.length > 0) {
+            const amenityMap = {
+              parking: 'پارکینگ',
+              elevator: 'آسانسور',
+              storage: 'انبار',
+              balcony: 'بالکن',
+              pool: 'استخر',
+            };
+            const allPresent = selectedAmenities.every((a) =>
+              features.includes(amenityMap[a])
+            );
+            if (!allPresent) visible = false;
+          }
+
+          // Price filter (only for buy mode - prices are in millions)
+          if (deal === 'buy' && price > maxPrice) visible = false;
+
+          // Area filter
+          if (area < minArea) visible = false;
+
+          // Apply visibility
+          if (visible) {
+            card.style.display = '';
+            visibleCount++;
+          } else {
+            card.style.display = 'none';
+          }
+        });
+
+        // Update count
+        resultCount.textContent = toPersianNum(visibleCount);
+
+        // Show/hide no results
+        if (visibleCount === 0) {
+          noResults.style.display = 'block';
+          pagination.style.display = 'none';
+        } else {
+          noResults.style.display = 'none';
+          pagination.style.display = 'flex';
+        }
+      }
+
+      // ============================================
+      // SORTING
+      // ============================================
+      function sortProperties() {
+        const sortBy = sortSelect.value;
+        const visibleCards = propertyCards.filter((c) => c.style.display !== 'none');
+
+        visibleCards.sort((a, b) => {
+          const aPrice = parseInt(a.getAttribute('data-price'));
+          const bPrice = parseInt(b.getAttribute('data-price'));
+          const aArea = parseInt(a.getAttribute('data-area'));
+          const bArea = parseInt(b.getAttribute('data-area'));
+          const aNewest = parseInt(a.getAttribute('data-newest'));
+          const bNewest = parseInt(b.getAttribute('data-newest'));
+
+          switch (sortBy) {
+            case 'cheapest':
+              return aPrice - bPrice;
+            case 'expensive':
+              return bPrice - aPrice;
+            case 'largest':
+              return bArea - aArea;
+            case 'newest':
+            default:
+              return aNewest - bNewest;
+          }
+        });
+
+        // Re-append in sorted order
+        visibleCards.forEach((card) => propertyGrid.appendChild(card));
+        // Append hidden cards at the end (to preserve them)
+        propertyCards
+          .filter((c) => c.style.display === 'none')
+          .forEach((card) => propertyGrid.appendChild(card));
+      }
+
+      sortSelect.addEventListener('change', sortProperties);
+
+      // ============================================
+      // EVENT LISTENERS FOR FILTERS
+      // ============================================
+      searchBtn.addEventListener('click', applyFilters);
+      searchInput.addEventListener('keyup', (e) => {
+        if (e.key === 'Enter') applyFilters();
+      });
+      citySelect.addEventListener('change', applyFilters);
+      typeSelect.addEventListener('change', applyFilters);
+
+      allCheckboxes.forEach((cb) => {
+        cb.addEventListener('change', applyFilters);
+      });
+
+      priceRange.addEventListener('input', function () {
+        priceValue.textContent = formatPrice(parseInt(this.value));
+      });
+
+      priceRange.addEventListener('change', applyFilters);
+      areaRange.addEventListener('change', applyFilters);
+
+      // ============================================
+      // RESET FILTERS
+      // ============================================
+      resetFiltersBtn.addEventListener('click', function () {
+        // Reset search
+        searchInput.value = '';
+        citySelect.value = '';
+        typeSelect.value = '';
+
+        // Reset deal toggle
+        dealToggle.querySelectorAll('button').forEach((b) => b.classList.remove('active'));
+        dealToggle.querySelector('button[data-deal="all"]').classList.add('active');
+        currentDeal = 'all';
+
+        // Reset all checkboxes
+        allCheckboxes.forEach((cb) => (cb.checked = false));
+
+        // Reset sliders
+        priceRange.value = 100000;
+        priceValue.textContent = formatPrice(100000);
+        areaRange.value = 0;
+        areaValue.textContent = '۰';
+
+        // Apply
+        applyFilters();
+      });
+
+      // ============================================
+      // PAGINATION (DEMO ONLY)
+      // ============================================
+      document.querySelectorAll('.page-btn').forEach((btn) => {
+        btn.addEventListener('click', function () {
+          if (this.disabled || this.textContent.trim() === '...') return;
+          if (this.querySelector('i')) {
+            // Prev/next buttons — demo only
+            console.log('ناوبری صفحه (دمو)');
+            return;
+          }
+          document.querySelectorAll('.page-btn').forEach((b) => b.classList.remove('active'));
+          this.classList.add('active');
+        });
+      });
+
+      // ============================================
+      // INITIAL SETUP
+      // ============================================
+      priceValue.textContent = formatPrice(50000);
+      areaValue.textContent = '۱۰۰';
+      applyFilters();
+    })();
+
+
+
+
+    allButton = document.getElementById('all').addEventListener('click', function name(params) {
+      document.getElementById('inputAll').value = "all"
+      document.getElementById('inputbuy').value = ""
+      document.getElementById('inputrent').value = ""
+    })
+
+    buyButton = document.getElementById('buy').addEventListener('click', function name(params) {
+      document.getElementById('inputAll').value = ""
+      document.getElementById('inputbuy').value = "buy"
+      document.getElementById('inputrent').value = ""
+    })
+
+    rentButton = document.getElementById('rent').addEventListener('click', function name(params) {
+      document.getElementById('inputAll').value = ""
+      document.getElementById('inputbuy').value = ""
+      document.getElementById('inputrent').value = "rent"
+    })
+
+
+
+  </script>
+</body>
+</html>

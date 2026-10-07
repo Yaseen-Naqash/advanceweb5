@@ -15,33 +15,50 @@ class Person(AbstractUser):
     external_id = models.CharField(max_length=127, null=True, blank=True)
 
 
+class Property(models.Model):
+    TYPE = [
+        ('0','آپارتمان'),
+        ('1','ویلا'),
+        ('1','تجاری'),
+        ('1','اداری'),
+        ('1','زمین'),
+
+    ]
+
+    DEAL_TYPE = [
+        ('0','خرید'),
+        ('1','اجاره'),
+
+    ]
+    title = models.CharField(max_length=127, null=True, blank=True)
+    rooms = models.CharField(max_length=127, null=True, blank=True)
+    parking = models.BooleanField(max_length=127, null=True, blank=True)
+    backyard = models.CharField(max_length=127, null=True, blank=True)
+    price = models.IntegerField(null=True, blank=True)
+
+    type = models.CharField(max_length=1, choices=TYPE, null=True, blank=True)
+    deal_type = models.CharField(max_length=1, choices=DEAL_TYPE, null=True, blank=True)
+    Attributes = models.ManyToManyField('Attribute')
+
+    created_at = models.DateTimeField(auto_add=True)
+    updated_at = models.DateTimeField(auto_now_add=True)
+    city = models.ForeignKey('City', null=True, blank=True)
 
 
+    def __str__(self):
 
-class Category(models.Model):
-    title = models.CharField(max_length=127, null=True)
+        return self.title
+
+
+class Attribute(models.Model):
+    title = models.CharField(max_length=127, null=True, blank=True)
+    is_included = models.BooleanField(default=False, null=True, blank=True)
+
     def __str__(self):
         return self.title
 
-class Product(models.Model):
-    title = models.CharField(max_length=127, null=True)
-    category = models.ForeignKey(Category, on_delete=models.SET_NULL, null=True)
-    price = models.IntegerField(null=True)
-    discount = models.IntegerField(null=True)
-    rating = models.DecimalField(max_digits=2, decimal_places=1, null=True)
-    image = models.ImageField(upload_to='images', null=True)
-    created_at = models.DateTimeField(auto_now=True)
-    updated_at = models.DateTimeField(auto_now_add=True)
-    
-    @property
-    def final_price(self):
-        if self.discount:
-            x = self.price - (self.price / 100 * self.discount)
-            x = int(x)
-            return x
-        else:
-            return self.price
-
+class City(models.Model):
+    title = models.CharField(max_length=127, null=True, blank=True)
 
     def __str__(self):
         return self.title

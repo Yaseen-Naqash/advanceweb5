@@ -1,0 +1,877 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ورود و ثبت‌نام | املاک آسمان</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    /* ---------- RESET & GLOBAL ---------- */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Vazirmatn', 'Segoe UI', Tahoma, sans-serif;
+    }
+
+    :root {
+      --primary: #1e3a5f;
+      --primary-light: #2c5282;
+      --secondary: #d4a373;
+      --secondary-light: #e9c9a1;
+      --accent: #e07a5f;
+      --bg-light: #f8fafc;
+      --bg-white: #ffffff;
+      --text-dark: #0f172a;
+      --text-muted: #475569;
+      --shadow-sm: 0 4px 12px rgba(0, 0, 0, 0.05);
+      --shadow-md: 0 8px 24px rgba(0, 0, 0, 0.08);
+      --shadow-lg: 0 20px 40px rgba(0, 0, 0, 0.12);
+      --radius: 16px;
+      --radius-sm: 10px;
+      --error: #dc2626;
+      --success: #16a34a;
+    }
+
+    html, body {
+      height: 100%;
+    }
+
+    body {
+      background-color: #eef2f7;
+      color: var(--text-dark);
+      line-height: 1.6;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1.5rem;
+      position: relative;
+      overflow-x: hidden;
+    }
+
+    /* Decorative background shapes */
+    body::before,
+    body::after {
+      content: '';
+      position: fixed;
+      border-radius: 50%;
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    body::before {
+      width: 500px;
+      height: 500px;
+      background: radial-gradient(circle, rgba(212, 163, 115, 0.18) 0%, transparent 70%);
+      top: -150px;
+      right: -150px;
+    }
+
+    body::after {
+      width: 600px;
+      height: 600px;
+      background: radial-gradient(circle, rgba(30, 58, 95, 0.12) 0%, transparent 70%);
+      bottom: -200px;
+      left: -200px;
+    }
+
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+
+    /* ---------- AUTH WRAPPER ---------- */
+    .auth-wrapper {
+      position: relative;
+      z-index: 1;
+      width: 100%;
+      max-width: 1050px;
+      background: var(--bg-white);
+      border-radius: 30px;
+      box-shadow: var(--shadow-lg);
+      overflow: hidden;
+      display: grid;
+      grid-template-columns: 1fr 1.1fr;
+      min-height: 640px;
+    }
+
+    /* ---------- LEFT PANEL (BRAND SIDE) ---------- */
+    .auth-side {
+      background: linear-gradient(150deg, var(--primary) 0%, #14283f 100%);
+      color: white;
+      padding: 3rem 2.5rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .auth-side::before {
+      content: '';
+      position: absolute;
+      width: 300px;
+      height: 300px;
+      background: radial-gradient(circle, rgba(212, 163, 115, 0.25) 0%, transparent 70%);
+      top: -80px;
+      left: -80px;
+      border-radius: 50%;
+    }
+
+    .auth-side::after {
+      content: '';
+      position: absolute;
+      width: 250px;
+      height: 250px;
+      background: radial-gradient(circle, rgba(224, 122, 95, 0.15) 0%, transparent 70%);
+      bottom: -100px;
+      right: -100px;
+      border-radius: 50%;
+    }
+
+    .side-logo {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      font-weight: 800;
+      font-size: 1.7rem;
+      position: relative;
+      z-index: 2;
+    }
+
+    .side-logo i {
+      color: var(--secondary);
+      font-size: 2rem;
+    }
+
+    .side-logo span {
+      color: var(--secondary);
+      font-weight: 400;
+      font-size: 1.2rem;
+    }
+
+    .side-content {
+      position: relative;
+      z-index: 2;
+    }
+
+    .side-content h2 {
+      font-size: 2.1rem;
+      font-weight: 800;
+      line-height: 1.4;
+      margin-bottom: 1rem;
+    }
+
+    .side-content h2 .highlight {
+      color: var(--secondary);
+    }
+
+    .side-content p {
+      opacity: 0.85;
+      font-size: 1rem;
+      margin-bottom: 2rem;
+      max-width: 340px;
+    }
+
+    .side-features {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .side-feature {
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+      font-size: 0.95rem;
+      opacity: 0.92;
+    }
+
+    .side-feature i {
+      color: var(--secondary);
+      font-size: 1.2rem;
+      width: 24px;
+      text-align: center;
+    }
+
+    .side-footer {
+      position: relative;
+      z-index: 2;
+      font-size: 0.85rem;
+      opacity: 0.7;
+    }
+
+    /* ---------- RIGHT PANEL (FORM SIDE) ---------- */
+    .auth-form-side {
+      padding: 3rem 3rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      background: var(--bg-white);
+    }
+
+    /* Tabs */
+    .auth-tabs {
+      display: flex;
+      background: #f1f5f9;
+      border-radius: 40px;
+      padding: 0.35rem;
+      margin-bottom: 2rem;
+      position: relative;
+    }
+
+    .auth-tab {
+      flex: 1;
+      text-align: center;
+      padding: 0.75rem 1rem;
+      border-radius: 40px;
+      cursor: pointer;
+      font-weight: 700;
+      font-size: 0.95rem;
+      color: var(--text-muted);
+      transition: all 0.25s ease;
+      position: relative;
+      z-index: 2;
+      border: none;
+      background: transparent;
+      font-family: inherit;
+    }
+
+    .auth-tab.active {
+      color: white;
+    }
+
+    .tab-slider {
+      position: absolute;
+      top: 0.35rem;
+      bottom: 0.35rem;
+      width: calc(50% - 0.35rem);
+      background: var(--primary);
+      border-radius: 40px;
+      transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      z-index: 1;
+      box-shadow: 0 4px 12px rgba(30, 58, 95, 0.3);
+    }
+
+    /* Forms */
+    .auth-form {
+      display: none;
+      animation: fadeSlide 0.4s ease forwards;
+    }
+
+    .auth-form.active {
+      display: block;
+    }
+
+    @keyframes fadeSlide {
+      from { opacity: 0; transform: translateX(-12px); }
+      to { opacity: 1; transform: translateX(0); }
+    }
+
+    .form-header {
+      margin-bottom: 1.8rem;
+    }
+
+    .form-header h1 {
+      font-size: 1.7rem;
+      font-weight: 800;
+      color: var(--primary);
+      margin-bottom: 0.4rem;
+    }
+
+    .form-header p {
+      color: var(--text-muted);
+      font-size: 0.92rem;
+    }
+
+    .form-group {
+      margin-bottom: 1.2rem;
+    }
+
+    .form-group label {
+      display: block;
+      font-size: 0.88rem;
+      font-weight: 600;
+      color: var(--text-dark);
+      margin-bottom: 0.5rem;
+    }
+
+    .input-wrapper {
+      position: relative;
+      display: flex;
+      align-items: center;
+    }
+
+    .input-wrapper i {
+      position: absolute;
+      right: 1rem;
+      color: var(--text-muted);
+      font-size: 0.95rem;
+      pointer-events: none;
+      transition: color 0.2s;
+    }
+
+    .input-wrapper input {
+      width: 100%;
+      padding: 0.85rem 2.8rem 0.85rem 2.8rem;
+      border: 1.5px solid #e2e8f0;
+      border-radius: var(--radius-sm);
+      font-size: 0.95rem;
+      font-family: inherit;
+      background: #f8fafc;
+      color: var(--text-dark);
+      transition: all 0.2s ease;
+      direction: rtl;
+    }
+
+    .input-wrapper input:focus {
+      outline: none;
+      border-color: var(--primary);
+      background: white;
+      box-shadow: 0 0 0 4px rgba(30, 58, 95, 0.08);
+    }
+
+    .input-wrapper input:focus + i,
+    .input-wrapper input:focus ~ i {
+      color: var(--primary);
+    }
+
+    .input-wrapper input::placeholder {
+      color: #94a3b8;
+      font-size: 0.9rem;
+    }
+
+    /* Password toggle */
+    .toggle-password {
+      position: absolute;
+      left: 0.9rem;
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: var(--text-muted);
+      font-size: 0.95rem;
+      padding: 0.3rem;
+      transition: color 0.2s;
+      pointer-events: auto;
+    }
+
+    .toggle-password:hover {
+      color: var(--primary);
+    }
+
+    /* Row for remember / forgot */
+    .form-extras {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 1.5rem;
+      font-size: 0.85rem;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+
+    .checkbox-wrap {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      cursor: pointer;
+      color: var(--text-muted);
+      user-select: none;
+    }
+
+    .checkbox-wrap input[type="checkbox"] {
+      width: 17px;
+      height: 17px;
+      accent-color: var(--primary);
+      cursor: pointer;
+    }
+
+    .forgot-link {
+      color: var(--primary);
+      font-weight: 600;
+      transition: color 0.2s;
+    }
+
+    .forgot-link:hover {
+      color: var(--secondary);
+    }
+
+    /* Submit button */
+    .btn-submit {
+      width: 100%;
+      padding: 0.9rem;
+      border: none;
+      border-radius: var(--radius-sm);
+      background: var(--primary);
+      color: white;
+      font-family: inherit;
+      font-size: 1rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.25s ease;
+      box-shadow: 0 6px 16px rgba(30, 58, 95, 0.25);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.6rem;
+    }
+
+    .btn-submit:hover {
+      background: var(--primary-light);
+      transform: translateY(-2px);
+      box-shadow: 0 10px 24px rgba(30, 58, 95, 0.32);
+    }
+
+    .btn-submit:active {
+      transform: translateY(0);
+    }
+
+    /* Terms (register) */
+    .terms {
+      font-size: 0.82rem;
+      color: var(--text-muted);
+      margin-bottom: 1.2rem;
+      line-height: 1.7;
+    }
+
+    .terms a {
+      color: var(--primary);
+      font-weight: 600;
+    }
+
+    .terms a:hover {
+      color: var(--secondary);
+    }
+
+    /* Divider */
+    .divider {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin: 1.5rem 0;
+      color: #94a3b8;
+      font-size: 0.82rem;
+    }
+
+    .divider::before,
+    .divider::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: #e2e8f0;
+    }
+
+    /* Social login */
+    .social-btns {
+      display: flex;
+      gap: 0.8rem;
+    }
+
+    .social-btn {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      padding: 0.75rem;
+      border: 1.5px solid #e2e8f0;
+      border-radius: var(--radius-sm);
+      background: white;
+      color: var(--text-dark);
+      font-family: inherit;
+      font-size: 0.88rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .social-btn:hover {
+      border-color: var(--primary);
+      background: #f8fafc;
+      transform: translateY(-2px);
+    }
+
+    .social-btn i {
+      font-size: 1.1rem;
+    }
+
+    .social-btn.google i { color: #db4437; }
+    .social-btn.linkedin i { color: #0077b5; }
+
+    /* ---------- RESPONSIVE ---------- */
+    @media (max-width: 900px) {
+      .auth-wrapper {
+        grid-template-columns: 1fr;
+        max-width: 520px;
+      }
+
+      .auth-side {
+        padding: 2rem 2rem;
+        min-height: auto;
+      }
+
+      .side-content h2 {
+        font-size: 1.5rem;
+      }
+
+      .side-content p {
+        margin-bottom: 1.5rem;
+      }
+
+      .side-features {
+        display: none;
+      }
+
+      .side-footer {
+        display: none;
+      }
+
+      .auth-form-side {
+        padding: 2.5rem 2rem;
+      }
+    }
+
+    @media (max-width: 480px) {
+      body {
+        padding: 0.8rem;
+      }
+
+      .auth-wrapper {
+        border-radius: 20px;
+      }
+
+      .auth-side {
+        padding: 1.8rem 1.5rem;
+      }
+
+      .side-logo {
+        font-size: 1.4rem;
+      }
+
+      .side-logo i {
+        font-size: 1.6rem;
+      }
+
+      .side-logo span {
+        font-size: 1rem;
+      }
+
+      .side-content h2 {
+        font-size: 1.3rem;
+      }
+
+      .auth-form-side {
+        padding: 2rem 1.3rem;
+      }
+
+      .form-header h1 {
+        font-size: 1.4rem;
+      }
+
+      .auth-tab {
+        font-size: 0.85rem;
+        padding: 0.65rem 0.5rem;
+      }
+
+      .social-btn {
+        font-size: 0.78rem;
+        padding: 0.65rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="auth-wrapper">
+
+    <!-- ================= LEFT SIDE (BRAND) ================= -->
+    <aside class="auth-side">
+      <div class="side-logo">
+        <i class="fas fa-building"></i>
+        املاک آسمان <span>| مشاور املاک</span>
+      </div>
+
+      <div class="side-content">
+        <h2>به خانه‌ی <span class="highlight">آسمانی</span> خود خوش آمدید</h2>
+        <p>با ثبت‌نام در املاک آسمان، به هزاران ملک مسکونی، تجاری و اداری در سراسر ایران دسترسی داشته باشید.</p>
+
+        <div class="side-features">
+          <div class="side-feature">
+            <i class="fas fa-check-circle"></i>
+            <span>دسترسی به بیش از ۱۲,۰۰۰ ملک فعال</span>
+          </div>
+          <div class="side-feature">
+            <i class="fas fa-check-circle"></i>
+            <span>مشاوره تخصصی و رایگان</span>
+          </div>
+          <div class="side-feature">
+            <i class="fas fa-check-circle"></i>
+            <span>ذخیره ملک‌های مورد علاقه</span>
+          </div>
+          <div class="side-feature">
+            <i class="fas fa-check-circle"></i>
+            <span>اطلاع از جدیدترین قیمت‌های بازار</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="side-footer">
+        © ۱۴۰۴ املاک آسمان | تمامی حقوق محفوظ است.
+      </div>
+    </aside>
+
+    <!-- ================= RIGHT SIDE (FORMS) ================= -->
+    <div class="auth-form-side">
+
+      <!-- Tabs -->
+      <div class="auth-tabs">
+        <div class="tab-slider" id="tabSlider"></div>
+        <button class="auth-tab active" id="loginTabBtn" type="button">ورود</button>
+        <button class="auth-tab" id="registerTabBtn" type="button">ثبت‌نام</button>
+      </div>
+
+      <!-- ---------- LOGIN FORM ---------- -->
+      <form class="auth-form active" id="loginForm" autocomplete="off">
+        <div class="form-header">
+          <h1>ورود به حساب کاربری</h1>
+          <p>برای دسترسی به پنل کاربری، اطلاعات خود را وارد کنید.</p>
+        </div>
+
+        <div class="form-group">
+          <label for="loginEmail">ایمیل یا شماره موبایل</label>
+          <div class="input-wrapper">
+            <input type="text" id="loginEmail" placeholder="مثال: user@example.com یا ۰۹۱۲۳۴۵۶۷۸۹" required>
+            <i class="fas fa-envelope"></i>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="loginPassword">رمز عبور</label>
+          <div class="input-wrapper">
+            <input type="password" id="loginPassword" placeholder="رمز عبور خود را وارد کنید" required>
+            <i class="fas fa-lock"></i>
+            <button type="button" class="toggle-password" data-target="loginPassword" aria-label="نمایش رمز">
+              <i class="fas fa-eye"></i>
+            </button>
+          </div>
+        </div>
+
+        <div class="form-extras">
+          <label class="checkbox-wrap">
+            <input type="checkbox" id="rememberMe">
+            <span>مرا به خاطر بسپار</span>
+          </label>
+          <a href="#" class="forgot-link">رمز عبور را فراموش کرده‌اید؟</a>
+        </div>
+
+        <button type="submit" class="btn-submit">
+          <i class="fas fa-sign-in-alt"></i>
+          ورود به حساب
+        </button>
+
+
+      </form>
+
+      <!-- ---------- REGISTER FORM ---------- -->
+      <form class="auth-form" id="registerForm" autocomplete="off">
+        <div class="form-header">
+          <h1>ایجاد حساب کاربری</h1>
+          <p>در چند ثانیه ثبت‌نام کنید و از خدمات ما بهره‌مند شوید.</p>
+        </div>
+
+        <div class="form-group">
+          <label for="regName">نام و نام خانوادگی</label>
+          <div class="input-wrapper">
+            <input type="text" id="regName" placeholder="مثال: علی محمدی" required>
+            <i class="fas fa-user"></i>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="regPhone">شماره موبایل</label>
+          <div class="input-wrapper">
+            <input type="tel" id="regPhone" placeholder="۰۹۱۲۳۴۵۶۷۸۹" required>
+            <i class="fas fa-mobile-alt"></i>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="regEmail">ایمیل</label>
+          <div class="input-wrapper">
+            <input type="email" id="regEmail" placeholder="example@email.com" required>
+            <i class="fas fa-envelope"></i>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="regPassword">رمز عبور</label>
+          <div class="input-wrapper">
+            <input type="password" id="regPassword" placeholder="حداقل ۸ کاراکتر" required>
+            <i class="fas fa-lock"></i>
+            <button type="button" class="toggle-password" data-target="regPassword" aria-label="نمایش رمز">
+              <i class="fas fa-eye"></i>
+            </button>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="regConfirm">تکرار رمز عبور</label>
+          <div class="input-wrapper">
+            <input type="password" id="regConfirm" placeholder="رمز عبور را دوباره وارد کنید" required>
+            <i class="fas fa-lock"></i>
+            <button type="button" class="toggle-password" data-target="regConfirm" aria-label="نمایش رمز">
+              <i class="fas fa-eye"></i>
+            </button>
+          </div>
+        </div>
+
+        <div class="terms">
+          با ثبت‌نام، <a href="#">قوانین و مقررات</a> و <a href="#">سیاست حفظ حریم خصوصی</a> املاک آسمان را می‌پذیرم.
+        </div>
+
+        <button type="submit" class="btn-submit">
+          <i class="fas fa-user-plus"></i>
+          ثبت‌نام
+        </button>
+      </form>
+
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      // ---------- ELEMENTS ----------
+      const loginTabBtn = document.getElementById('loginTabBtn');
+      const registerTabBtn = document.getElementById('registerTabBtn');
+      const loginForm = document.getElementById('loginForm');
+      const registerForm = document.getElementById('registerForm');
+      const tabSlider = document.getElementById('tabSlider');
+
+      // ---------- TAB SWITCHING ----------
+      function switchTab(tab) {
+        if (tab === 'login') {
+          loginTabBtn.classList.add('active');
+          registerTabBtn.classList.remove('active');
+          loginForm.classList.add('active');
+          registerForm.classList.remove('active');
+          tabSlider.style.transform = 'translateX(0)';
+        } else {
+          registerTabBtn.classList.add('active');
+          loginTabBtn.classList.remove('active');
+          registerForm.classList.add('active');
+          loginForm.classList.remove('active');
+          // In RTL, the slider moves to the left (negative X)
+          tabSlider.style.transform = 'translateX(-100%)';
+        }
+      }
+
+      loginTabBtn.addEventListener('click', () => switchTab('login'));
+      registerTabBtn.addEventListener('click', () => switchTab('register'));
+
+      // Initial position (RTL: slider over first tab)
+      tabSlider.style.transform = 'translateX(0)';
+
+      // ---------- PASSWORD TOGGLE ----------
+      document.querySelectorAll('.toggle-password').forEach(btn => {
+        btn.addEventListener('click', function () {
+          const targetId = this.getAttribute('data-target');
+          const input = document.getElementById(targetId);
+          const icon = this.querySelector('i');
+
+          if (input.type === 'password') {
+            input.type = 'text';
+            icon.classList.remove('fa-eye');
+            icon.classList.add('fa-eye-slash');
+          } else {
+            input.type = 'password';
+            icon.classList.remove('fa-eye-slash');
+            icon.classList.add('fa-eye');
+          }
+        });
+      });
+
+      // ---------- FORM SUBMISSION (DEMO ONLY) ----------
+      loginForm.addEventListener('submit', function (e) {
+        e.preventDefault();
+        const email = document.getElementById('loginEmail').value.trim();
+        const password = document.getElementById('loginPassword').value.trim();
+
+        if (!email || !password) {
+          alert('لطفاً ایمیل/موبایل و رمز عبور را وارد کنید.');
+          return;
+        }
+
+        // DEMO: just log (replace with Django later)
+        console.log('ورود:', { email, password, remember: document.getElementById('rememberMe').checked });
+        alert('✅ (دمو) ورود با موفقیت انجام شد!\nاین بخش بعداً به ویو جنگو متصل می‌شود.');
+      });
+
+      registerForm.addEventListener('submit', function (e) {
+        e.preventDefault();
+        const name = document.getElementById('regName').value.trim();
+        const phone = document.getElementById('regPhone').value.trim();
+        const email = document.getElementById('regEmail').value.trim();
+        const password = document.getElementById('regPassword').value.trim();
+        const confirm = document.getElementById('regConfirm').value.trim();
+
+        if (!name || !phone || !email || !password || !confirm) {
+          alert('لطفاً تمام فیلدها را پر کنید.');
+          return;
+        }
+
+        if (password !== confirm) {
+          alert('❌ رمز عبور و تکرار آن یکسان نیستند.');
+          return;
+        }
+
+        if (password.length < 8) {
+          alert('❌ رمز عبور باید حداقل ۸ کاراکتر باشد.');
+          return;
+        }
+
+        // DEMO: just log (replace with Django later)
+        console.log('ثبت‌نام:', { name, phone, email, password });
+        alert('✅ (دمو) ثبت‌نام با موفقیت انجام شد!\nاین بخش بعداً به ویو جنگو متصل می‌شود.');
+      });
+
+      // ---------- REAL-TIME CONFIRM PASSWORD CHECK (bonus) ----------
+      const regPassword = document.getElementById('regPassword');
+      const regConfirm = document.getElementById('regConfirm');
+
+      function checkPasswordMatch() {
+        if (regConfirm.value.length > 0) {
+          if (regPassword.value !== regConfirm.value) {
+            regConfirm.style.borderColor = 'var(--error)';
+          } else {
+            regConfirm.style.borderColor = 'var(--success)';
+          }
+        } else {
+          regConfirm.style.borderColor = '#e2e8f0';
+        }
+      }
+
+      regPassword.addEventListener('input', checkPasswordMatch);
+      regConfirm.addEventListener('input', checkPasswordMatch);
+
+      // Reset border colors on focus (clean look)
+      document.querySelectorAll('.input-wrapper input').forEach(input => {
+        input.addEventListener('focus', function () {
+          if (this.id !== 'regConfirm') {
+            this.style.borderColor = '';
+          }
+        });
+        input.addEventListener('blur', function () {
+          if (this.id === 'regConfirm' && this.value.length > 0) {
+            // keep green/red on blur
+          } else if (this.id !== 'regConfirm') {
+            this.style.borderColor = '';
+          }
+        });
+      });
+
+    })();
+  </script>
+</body>
+</html>

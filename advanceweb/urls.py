@@ -18,14 +18,14 @@ from django.contrib import admin
 from django.urls import path, include
 from django.conf.urls.static import static
 from django.conf import settings
-from base.views import home, account, detail, login_page
+from base.views import home, login_register, properties
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', home, name='home_url'),
-    path('account/', account, name='account_url'),
-    path('product/<int:pk>/', detail, name='product_url'),
-    path('login/', login_page, name='login_url')
+    path('properties/', properties, name='properties_url'),
+    path('login-register/', login_register, name='login_register_url'),
+
     
 ]
 
