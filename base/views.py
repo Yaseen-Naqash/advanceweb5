@@ -5,7 +5,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import login, authenticate, logout
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
-from .models import Property, Person, Attribute
+from .models import Property, Person, Attribute, City
 
 
 def home(request):
@@ -23,16 +23,24 @@ def home(request):
 
 def properties(request):
 
-    q = request.GET.get('q','')
-    city = request.GET.get('city','')
-    type = request.GET.get('type','')
-    
+
+
+    # price = request.GET.get('price',0)
+
     properties = Property.objects.all()
 
 
+    
+    
 
+
+    cities = City.objects.all()
+    attributes = Attribute.objects.all()
     context = {
-        'properties':properties,
+        'properties':properties[:6],
+        'types': Property.TYPE,
+        'cities':cities,
+        'attributes':attributes,
     }
     return render(request, 'deals.html', context)
 

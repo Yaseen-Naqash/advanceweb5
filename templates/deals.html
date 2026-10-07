@@ -1042,8 +1042,8 @@
       </div>
     </section>
 
-    <!-- ================= SEARCH BAR ================= -->\
-    <form action="#">
+    <!-- ================= SEARCH BAR ================= -->
+    
     <div class="search-bar-wrap">
       <div class="search-bar">
         <div class="search-input">
@@ -1059,8 +1059,8 @@
         </select>
         <select class="search-select" id="typeSelect" name="type">
           <option value="">همه انواع</option>
-          {% for type in type %}
-          <option value="{{type}}">{{type}}</option>
+          {% for value, label in types %}
+          <option value="{{value}}">{{label}}</option>
 
           {% endfor %}
         </select>
@@ -1086,11 +1086,11 @@
           <div class="filter-group">
             <h4>نوع معامله</h4>
             <div class="deal-toggle" id="dealToggle">
-              <button class="active" data-deal="all"  id="all">همه</button>
+              <button type="button" class="active" id="all">همه</button>
               <input type="hidden" value="" name="deal_type" id="inputAll">
-              <button data-deal="buy" id="buy">خرید</button>
+              <button type="button" id="buy">خرید</button>
               <input type="hidden" value="" name="deal_type"  id="inputbuy">
-              <button data-deal="rent" id="rent">اجاره</button>
+              <button type="button" id="rent">اجاره</button>
               <input type="hidden" value="rent" name="deal_type"  id="inputrent">
             </div>
           </div>
@@ -1101,11 +1101,11 @@
             <div class="check-list" id="propertyTypeFilters">
 
 
-              {% for in type in types %}
+              {% for value, label in types %}
               <label class="check-item">
-                <input type="checkbox" value="{{type}}" name="type">
-                <span>{{type}}</span>
-                <span class="count">۷</span>
+                  <input type="checkbox" value="{{ value }}" name="type">
+                  <span>{{ label }}</span>
+                  <span class="count">۷</span>
               </label>
               {% endfor %}
             </div>
@@ -1116,8 +1116,7 @@
             <h4>تعداد خواب</h4>
             <div class="check-list">
               <label class="check-item">
-                <input type="text" value="rooms">
-                <span>تعداد خواب</span>
+                <input type="text" value="1">
               </label>
 
             </div>
@@ -1131,7 +1130,7 @@
                 <span>۰</span>
                 <strong id="priceValue">۵۰,۰۰۰</strong>
               </div>
-              <input type="range" id="priceRange" min="0" max="100000" value="50000" step="1000">
+              <input type="range" id="priceRange" min="0" max="100000" value="50000" step="1000" name="price">
             </div>
           </div>
 
@@ -1151,32 +1150,19 @@
           <div class="filter-group">
             <h4>امکانات</h4>
             <div class="check-list">
+              {% for attribute in attributes %}
               <label class="check-item">
-                <input type="checkbox" value="parking">
-                <span>پارکینگ</span>
+                <input type="checkbox" value="{{attribute.title}}">
+                <span>{{attribute.title}}</span>
               </label>
-              <label class="check-item">
-                <input type="checkbox" value="elevator">
-                <span>آسانسور</span>
-              </label>
-              <label class="check-item">
-                <input type="checkbox" value="storage">
-                <span>انبار</span>
-              </label>
-              <label class="check-item">
-                <input type="checkbox" value="balcony">
-                <span>بالکن</span>
-              </label>
-              <label class="check-item">
-                <input type="checkbox" value="pool">
-                <span>استخر</span>
-              </label>
+              {% endfor %}
+
             </div>
           </div>
         </aside>
         
 
-        </form>
+        
 
         <!-- ---------- PROPERTIES GRID ---------- -->
         <section>
@@ -1208,304 +1194,82 @@
           <!-- Property grid -->
           <div class="property-grid" id="propertyGrid">
 
-            <!-- Property 1 -->
-            <div class="property-card" data-deal="buy" data-type="apartment" data-price="22500" data-area="120" data-rooms="3" data-city="tehran" data-newest="1">
+            {% for property in properties %}
+            <div class="property-card">
+
               <div class="property-img">
-                <img src="https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="آپارتمان سعادت‌آباد" loading="lazy">
+                <img src="https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80'"
+                    alt="{{ property.title }}"
+                    loading="lazy">
+
                 <div class="property-tags">
-                  <span class="tag tag-deal">فروش</span>
-                  <span class="tag tag-featured">ویژه</span>
+                  {# Deal type badge: خرید / اجاره / فروش #}
+                  <span class="tag tag-deal">
+                    {% if property.deal_type == '0' %}فروش{% else %}اجاره{% endif %}
+                  </span>
+
+                  {# Feature badge — show only if property is marked featured (optional) #}
+                  {% if property.is_featured %}
+                    <span class="tag tag-featured">ویژه</span>
+                  {% endif %}
                 </div>
-                <button class="fav-btn" aria-label="افزودن به علاقه‌مندی"><i class="far fa-heart"></i></button>
+
+                <button class="fav-btn" aria-label="افزودن به علاقه‌مندی">
+                  <i class="far fa-heart"></i>
+                </button>
               </div>
+
               <div class="property-body">
-                <h3 class="property-title">آپارتمان ۱۲۰ متری، سعادت‌آباد</h3>
+                <h3 class="property-title">{{ property.title }}</h3>
+
                 <div class="property-location">
                   <i class="fas fa-map-marker-alt"></i>
-                  تهران، سعادت‌آباد
+                  {% if property.city %}{{ property.city.title }}{% endif %}
+                  {% if property.backyard %}، {{ property.backyard }}{% endif %}
                 </div>
+
                 <div class="property-features">
-                  <span><i class="fas fa-bed"></i> ۳ خواب</span>
-                  <span><i class="fas fa-bath"></i> ۲ سرویس</span>
-                  <span><i class="fas fa-car"></i> پارکینگ</span>
-                  <span><i class="fas fa-ruler-combined"></i> ۱۲۰ متر</span>
+                  {% if property.rooms %}
+                    <span><i class="fas fa-bed"></i> {{ property.rooms }} خواب</span>
+                  {% endif %}
+
+                  {% if property.area %}
+                    <span><i class="fas fa-ruler-combined"></i> {{ property.area }} متر</span>
+                  {% endif %}
+
+                  {% if property.parking %}
+                    <span><i class="fas fa-car"></i> پارکینگ</span>
+                  {% endif %}
+
+                  {% for attr in property.Attributes.all|slice:":2" %}
+                    <span><i class="fas fa-check"></i> {{ attr.title }}</span>
+                  {% endfor %}
                 </div>
+
                 <div class="property-footer">
                   <div class="price">
-                    ۲۲,۵۰۰,۰۰۰,۰۰۰
-                    <span>تومان</span>
+                    {% if property.deal_type == '1' %}
+                      {# اجاره — show monthly rent #}
+                      {{ property.price }}
+                      <span>تومان / ماهانه</span>
+                    {% else %}
+                      {# خرید / فروش #}
+                      {{ property.price }}
+                      <span>تومان</span>
+                    {% endif %}
                   </div>
-                  <a href="#" class="detail-btn">
+
+                  <a href="" class="detail-btn">
                     جزئیات <i class="fas fa-arrow-left"></i>
                   </a>
                 </div>
               </div>
             </div>
-
-            <!-- Property 2 -->
-            <div class="property-card" data-deal="rent" data-type="villa" data-price="85" data-area="350" data-rooms="4" data-city="tehran" data-newest="2">
-              <div class="property-img">
-                <img src="https://images.unsplash.com/photo-1613490493576-7fde63acd811?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="ویلا لواسان" loading="lazy">
-                <div class="property-tags">
-                  <span class="tag tag-deal">اجاره</span>
-                </div>
-                <button class="fav-btn" aria-label="افزودن به علاقه‌مندی"><i class="far fa-heart"></i></button>
+            {% empty %}
+              <div class="no-results">
+                <p>ملکی با این مشخصات یافت نشد.</p>
               </div>
-              <div class="property-body">
-                <h3 class="property-title">ویلای دوبلکس، لواسان</h3>
-                <div class="property-location">
-                  <i class="fas fa-map-marker-alt"></i>
-                  تهران، لواسان
-                </div>
-                <div class="property-features">
-                  <span><i class="fas fa-bed"></i> ۴ خواب</span>
-                  <span><i class="fas fa-bath"></i> ۳ سرویس</span>
-                  <span><i class="fas fa-tree"></i> حیاط</span>
-                  <span><i class="fas fa-ruler-combined"></i> ۳۵۰ متر</span>
-                </div>
-                <div class="property-footer">
-                  <div class="price">
-                    ۸۵,۰۰۰,۰۰۰
-                    <span>تومان / ماهانه</span>
-                  </div>
-                  <a href="#" class="detail-btn">
-                    جزئیات <i class="fas fa-arrow-left"></i>
-                  </a>
-                </div>
-              </div>
-            </div>
-
-            <!-- Property 3 -->
-            <div class="property-card" data-deal="buy" data-type="commercial" data-price="15800" data-area="45" data-rooms="0" data-city="tehran" data-newest="3">
-              <div class="property-img">
-                <img src="https://images.unsplash.com/photo-1497366754035-f200968a6e72?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="مغازه بازار" loading="lazy">
-                <div class="property-tags">
-                  <span class="tag tag-deal">فروش</span>
-                  <span class="tag tag-new">جدید</span>
-                </div>
-                <button class="fav-btn" aria-label="افزودن به علاقه‌مندی"><i class="far fa-heart"></i></button>
-              </div>
-              <div class="property-body">
-                <h3 class="property-title">مغازه ۴۵ متری، بازار تهران</h3>
-                <div class="property-location">
-                  <i class="fas fa-map-marker-alt"></i>
-                  تهران، بازار
-                </div>
-                <div class="property-features">
-                  <span><i class="fas fa-ruler-combined"></i> ۴۵ متر</span>
-                  <span><i class="fas fa-door-open"></i> دو نبش</span>
-                  <span><i class="fas fa-warehouse"></i> انبار</span>
-                </div>
-                <div class="property-footer">
-                  <div class="price">
-                    ۱۵,۸۰۰,۰۰۰,۰۰۰
-                    <span>تومان</span>
-                  </div>
-                  <a href="#" class="detail-btn">
-                    جزئیات <i class="fas fa-arrow-left"></i>
-                  </a>
-                </div>
-              </div>
-            </div>
-
-            <!-- Property 4 -->
-            <div class="property-card" data-deal="buy" data-type="apartment" data-price="9800" data-area="95" data-rooms="2" data-city="karaj" data-newest="4">
-              <div class="property-img">
-                <img src="https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="آپارتمان کرج" loading="lazy">
-                <div class="property-tags">
-                  <span class="tag tag-deal">فروش</span>
-                </div>
-                <button class="fav-btn" aria-label="افزودن به علاقه‌مندی"><i class="far fa-heart"></i></button>
-              </div>
-              <div class="property-body">
-                <h3 class="property-title">آپارتمان ۹۵ متری، عظیمیه کرج</h3>
-                <div class="property-location">
-                  <i class="fas fa-map-marker-alt"></i>
-                  کرج، عظیمیه
-                </div>
-                <div class="property-features">
-                  <span><i class="fas fa-bed"></i> ۲ خواب</span>
-                  <span><i class="fas fa-bath"></i> ۱ سرویس</span>
-                  <span><i class="fas fa-car"></i> پارکینگ</span>
-                  <span><i class="fas fa-ruler-combined"></i> ۹۵ متر</span>
-                </div>
-                <div class="property-footer">
-                  <div class="price">
-                    ۹,۸۰۰,۰۰۰,۰۰۰
-                    <span>تومان</span>
-                  </div>
-                  <a href="#" class="detail-btn">
-                    جزئیات <i class="fas fa-arrow-left"></i>
-                  </a>
-                </div>
-              </div>
-            </div>
-
-            <!-- Property 5 -->
-            <div class="property-card" data-deal="rent" data-type="office" data-price="45" data-area="80" data-rooms="0" data-city="tehran" data-newest="5">
-              <div class="property-img">
-                <img src="https://images.unsplash.com/photo-1497366216548-37526070297c?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="دفتر اداری" loading="lazy">
-                <div class="property-tags">
-                  <span class="tag tag-deal">اجاره</span>
-                </div>
-                <button class="fav-btn" aria-label="افزودن به علاقه‌مندی"><i class="far fa-heart"></i></button>
-              </div>
-              <div class="property-body">
-                <h3 class="property-title">دفتر اداری ۸۰ متری، ونک</h3>
-                <div class="property-location">
-                  <i class="fas fa-map-marker-alt"></i>
-                  تهران، ونک
-                </div>
-                <div class="property-features">
-                  <span><i class="fas fa-ruler-combined"></i> ۸۰ متر</span>
-                  <span><i class="fas fa-elevator"></i> آسانسور</span>
-                  <span><i class="fas fa-snowflake"></i> سرمایش</span>
-                </div>
-                <div class="property-footer">
-                  <div class="price">
-                    ۴۵,۰۰۰,۰۰۰
-                    <span>تومان / ماهانه</span>
-                  </div>
-                  <a href="#" class="detail-btn">
-                    جزئیات <i class="fas fa-arrow-left"></i>
-                  </a>
-                </div>
-              </div>
-            </div>
-
-            <!-- Property 6 -->
-            <div class="property-card" data-deal="buy" data-type="villa" data-price="45000" data-area="500" data-rooms="5" data-city="mashhad" data-newest="6">
-              <div class="property-img">
-                <img src="https://images.unsplash.com/photo-1568605114967-8130f3a36994?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="ویلا مشهد" loading="lazy">
-                <div class="property-tags">
-                  <span class="tag tag-deal">فروش</span>
-                  <span class="tag tag-featured">ویژه</span>
-                </div>
-                <button class="fav-btn" aria-label="افزودن به علاقه‌مندی"><i class="far fa-heart"></i></button>
-              </div>
-              <div class="property-body">
-                <h3 class="property-title">ویلا باغ ۵۰۰ متری، شاندیز</h3>
-                <div class="property-location">
-                  <i class="fas fa-map-marker-alt"></i>
-                  مشهد، شاندیز
-                </div>
-                <div class="property-features">
-                  <span><i class="fas fa-bed"></i> ۵ خواب</span>
-                  <span><i class="fas fa-bath"></i> ۴ سرویس</span>
-                  <span><i class="fas fa-swimming-pool"></i> استخر</span>
-                  <span><i class="fas fa-ruler-combined"></i> ۵۰۰ متر</span>
-                </div>
-                <div class="property-footer">
-                  <div class="price">
-                    ۴۵,۰۰۰,۰۰۰,۰۰۰
-                    <span>تومان</span>
-                  </div>
-                  <a href="#" class="detail-btn">
-                    جزئیات <i class="fas fa-arrow-left"></i>
-                  </a>
-                </div>
-              </div>
-            </div>
-
-            <!-- Property 7 -->
-            <div class="property-card" data-deal="buy" data-type="apartment" data-price="7200" data-area="75" data-rooms="2" data-city="isfahan" data-newest="7">
-              <div class="property-img">
-                <img src="https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="آپارتمان اصفهان" loading="lazy">
-                <div class="property-tags">
-                  <span class="tag tag-deal">فروش</span>
-                </div>
-                <button class="fav-btn" aria-label="افزودن به علاقه‌مندی"><i class="far fa-heart"></i></button>
-              </div>
-              <div class="property-body">
-                <h3 class="property-title">آپارتمان ۷۵ متری، مرداویج</h3>
-                <div class="property-location">
-                  <i class="fas fa-map-marker-alt"></i>
-                  اصفهان، مرداویج
-                </div>
-                <div class="property-features">
-                  <span><i class="fas fa-bed"></i> ۲ خواب</span>
-                  <span><i class="fas fa-bath"></i> ۱ سرویس</span>
-                  <span><i class="fas fa-elevator"></i> آسانسور</span>
-                  <span><i class="fas fa-ruler-combined"></i> ۷۵ متر</span>
-                </div>
-                <div class="property-footer">
-                  <div class="price">
-                    ۷,۲۰۰,۰۰۰,۰۰۰
-                    <span>تومان</span>
-                  </div>
-                  <a href="#" class="detail-btn">
-                    جزئیات <i class="fas fa-arrow-left"></i>
-                  </a>
-                </div>
-              </div>
-            </div>
-
-            <!-- Property 8 -->
-            <div class="property-card" data-deal="rent" data-type="apartment" data-price="35" data-area="110" data-rooms="3" data-city="shiraz" data-newest="8">
-              <div class="property-img">
-                <img src="https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="آپارتمان شیراز" loading="lazy">
-                <div class="property-tags">
-                  <span class="tag tag-deal">اجاره</span>
-                  <span class="tag tag-new">جدید</span>
-                </div>
-                <button class="fav-btn" aria-label="افزودن به علاقه‌مندی"><i class="far fa-heart"></i></button>
-              </div>
-              <div class="property-body">
-                <h3 class="property-title">آپارتمان ۱۱۰ متری، معالی‌آباد</h3>
-                <div class="property-location">
-                  <i class="fas fa-map-marker-alt"></i>
-                  شیراز، معالی‌آباد
-                </div>
-                <div class="property-features">
-                  <span><i class="fas fa-bed"></i> ۳ خواب</span>
-                  <span><i class="fas fa-bath"></i> ۲ سرویس</span>
-                  <span><i class="fas fa-car"></i> پارکینگ</span>
-                  <span><i class="fas fa-ruler-combined"></i> ۱۱۰ متر</span>
-                </div>
-                <div class="property-footer">
-                  <div class="price">
-                    ۳۵,۰۰۰,۰۰۰
-                    <span>تومان / ماهانه</span>
-                  </div>
-                  <a href="#" class="detail-btn">
-                    جزئیات <i class="fas fa-arrow-left"></i>
-                  </a>
-                </div>
-              </div>
-            </div>
-
-            <!-- Property 9 -->
-            <div class="property-card" data-deal="buy" data-type="land" data-price="12000" data-area="300" data-rooms="0" data-city="tabriz" data-newest="9">
-              <div class="property-img">
-                <img src="https://images.unsplash.com/photo-1500382017468-9049fed747ef?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="زمین تبریز" loading="lazy">
-                <div class="property-tags">
-                  <span class="tag tag-deal">فروش</span>
-                </div>
-                <button class="fav-btn" aria-label="افزودن به علاقه‌مندی"><i class="far fa-heart"></i></button>
-              </div>
-              <div class="property-body">
-                <h3 class="property-title">زمین ۳۰۰ متری، ولیعصر تبریز</h3>
-                <div class="property-location">
-                  <i class="fas fa-map-marker-alt"></i>
-                  تبریز، ولیعصر
-                </div>
-                <div class="property-features">
-                  <span><i class="fas fa-ruler-combined"></i> ۳۰۰ متر</span>
-                  <span><i class="fas fa-file-signature"></i> سند تک‌برگ</span>
-                  <span><i class="fas fa-road"></i> بر خیابان</span>
-                </div>
-                <div class="property-footer">
-                  <div class="price">
-                    ۱۲,۰۰۰,۰۰۰,۰۰۰
-                    <span>تومان</span>
-                  </div>
-                  <a href="#" class="detail-btn">
-                    جزئیات <i class="fas fa-arrow-left"></i>
-                  </a>
-                </div>
-              </div>
-            </div>
-
+            {% endfor %}
           </div>
 
           <!-- No results -->
@@ -1588,49 +1352,26 @@
   </footer>
 
   <script>
-    (function () {
+
       // ============================================
       // ELEMENTS
       // ============================================
-      const propertyGrid = document.getElementById('propertyGrid');
-      const propertyCards = Array.from(propertyGrid.querySelectorAll('.property-card'));
-      const resultCount = document.getElementById('resultCount');
-      const noResults = document.getElementById('noResults');
-      const pagination = document.getElementById('pagination');
 
-      const searchInput = document.getElementById('searchInput');
-      const citySelect = document.getElementById('citySelect');
+
       const typeSelect = document.getElementById('typeSelect');
-      const searchBtn = document.getElementById('searchBtn');
-      const sortSelect = document.getElementById('sortSelect');
+
 
       const dealToggle = document.getElementById('dealToggle');
-      const propertyTypeFilters = document.getElementById('propertyTypeFilters');
       const priceRange = document.getElementById('priceRange');
       const priceValue = document.getElementById('priceValue');
       const areaRange = document.getElementById('areaRange');
       const areaValue = document.getElementById('areaValue');
-      const resetFiltersBtn = document.getElementById('resetFilters');
 
       const viewToggle = document.getElementById('viewToggle');
-
-      // Amenities checkboxes (using all checkboxes in the sidebar except type)
-      const allCheckboxes = document.querySelectorAll('.filters input[type="checkbox"]');
 
       // Current deal type state
       let currentDeal = 'all';
 
-      // ============================================
-      // FORMAT PERSIAN NUMBERS
-      // ============================================
-      function toPersianNum(num) {
-        const persianDigits = ['۰', '۱', '۲', '۳', '۴', '۵', '۶', '۷', '۸', '۹'];
-        return String(num).replace(/\d/g, (d) => persianDigits[d]);
-      }
-
-      function formatPrice(num) {
-        return toPersianNum(num.toLocaleString('en-US'));
-      }
 
       // ============================================
       // PRICE RANGE SLIDER
@@ -1650,266 +1391,12 @@
         btn.addEventListener('click', function () {
           dealToggle.querySelectorAll('button').forEach((b) => b.classList.remove('active'));
           this.classList.add('active');
-          currentDeal = this.getAttribute('data-deal');
-          applyFilters();
+          
+          
         });
       });
 
-      // ============================================
-      // VIEW TOGGLE (GRID / LIST)
-      // ============================================
-      viewToggle.querySelectorAll('button').forEach((btn) => {
-        btn.addEventListener('click', function () {
-          viewToggle.querySelectorAll('button').forEach((b) => b.classList.remove('active'));
-          this.classList.add('active');
-          const view = this.getAttribute('data-view');
-          if (view === 'list') {
-            propertyGrid.classList.add('list-view');
-          } else {
-            propertyGrid.classList.remove('list-view');
-          }
-        });
-      });
 
-      // ============================================
-      // FAVORITE BUTTON
-      // ============================================
-      document.querySelectorAll('.fav-btn').forEach((btn) => {
-        btn.addEventListener('click', function (e) {
-          e.preventDefault();
-          this.classList.toggle('active');
-          const icon = this.querySelector('i');
-          if (this.classList.contains('active')) {
-            icon.classList.remove('far');
-            icon.classList.add('fas');
-          } else {
-            icon.classList.remove('fas');
-            icon.classList.add('far');
-          }
-        });
-      });
-
-      // ============================================
-      // FILTER LOGIC
-      // ============================================
-      function applyFilters() {
-        const searchTerm = searchInput.value.trim().toLowerCase();
-        const selectedCity = citySelect.value;
-        const selectedType = typeSelect.value;
-
-        // Get selected property types
-        const selectedTypes = Array.from(
-          propertyTypeFilters.querySelectorAll('input:checked')
-        ).map((cb) => cb.value);
-
-        // Get selected room counts (2nd filter group - bedrooms)
-        const bedroomGroup = document.querySelectorAll('.filter-group')[2];
-        const selectedRooms = Array.from(
-          bedroomGroup.querySelectorAll('input:checked')
-        ).map((cb) => parseInt(cb.value));
-
-        // Get selected amenities (last filter group)
-        const amenitiesGroup = document.querySelectorAll('.filter-group')[4];
-        const selectedAmenities = Array.from(
-          amenitiesGroup.querySelectorAll('input:checked')
-        ).map((cb) => cb.value);
-
-        const maxPrice = parseInt(priceRange.value);
-        const minArea = parseInt(areaRange.value);
-
-        let visibleCount = 0;
-
-        propertyCards.forEach((card) => {
-          const title = card.querySelector('.property-title').textContent.toLowerCase();
-          const location = card.querySelector('.property-location').textContent.toLowerCase();
-          const deal = card.getAttribute('data-deal');
-          const type = card.getAttribute('data-type');
-          const price = parseInt(card.getAttribute('data-price'));
-          const area = parseInt(card.getAttribute('data-area'));
-          const rooms = parseInt(card.getAttribute('data-rooms'));
-          const city = card.getAttribute('data-city');
-          const features = card.querySelector('.property-features').textContent.toLowerCase();
-
-          let visible = true;
-
-          // Deal filter
-          if (currentDeal !== 'all' && deal !== currentDeal) visible = false;
-
-          // Search term
-          if (searchTerm && !title.includes(searchTerm) && !location.includes(searchTerm)) {
-            visible = false;
-          }
-
-          // City filter
-          if (selectedCity && city !== selectedCity) visible = false;
-
-          // Type filter (top search bar)
-          if (selectedType && type !== selectedType) visible = false;
-
-          // Property type checkboxes
-          if (selectedTypes.length > 0 && !selectedTypes.includes(type)) visible = false;
-
-          // Bedrooms filter
-          if (selectedRooms.length > 0) {
-            const roomMatch = selectedRooms.some((r) => {
-              if (r === 4) return rooms >= 4;
-              return rooms === r;
-            });
-            if (!roomMatch) visible = false;
-          }
-
-          // Amenities filter
-          if (selectedAmenities.length > 0) {
-            const amenityMap = {
-              parking: 'پارکینگ',
-              elevator: 'آسانسور',
-              storage: 'انبار',
-              balcony: 'بالکن',
-              pool: 'استخر',
-            };
-            const allPresent = selectedAmenities.every((a) =>
-              features.includes(amenityMap[a])
-            );
-            if (!allPresent) visible = false;
-          }
-
-          // Price filter (only for buy mode - prices are in millions)
-          if (deal === 'buy' && price > maxPrice) visible = false;
-
-          // Area filter
-          if (area < minArea) visible = false;
-
-          // Apply visibility
-          if (visible) {
-            card.style.display = '';
-            visibleCount++;
-          } else {
-            card.style.display = 'none';
-          }
-        });
-
-        // Update count
-        resultCount.textContent = toPersianNum(visibleCount);
-
-        // Show/hide no results
-        if (visibleCount === 0) {
-          noResults.style.display = 'block';
-          pagination.style.display = 'none';
-        } else {
-          noResults.style.display = 'none';
-          pagination.style.display = 'flex';
-        }
-      }
-
-      // ============================================
-      // SORTING
-      // ============================================
-      function sortProperties() {
-        const sortBy = sortSelect.value;
-        const visibleCards = propertyCards.filter((c) => c.style.display !== 'none');
-
-        visibleCards.sort((a, b) => {
-          const aPrice = parseInt(a.getAttribute('data-price'));
-          const bPrice = parseInt(b.getAttribute('data-price'));
-          const aArea = parseInt(a.getAttribute('data-area'));
-          const bArea = parseInt(b.getAttribute('data-area'));
-          const aNewest = parseInt(a.getAttribute('data-newest'));
-          const bNewest = parseInt(b.getAttribute('data-newest'));
-
-          switch (sortBy) {
-            case 'cheapest':
-              return aPrice - bPrice;
-            case 'expensive':
-              return bPrice - aPrice;
-            case 'largest':
-              return bArea - aArea;
-            case 'newest':
-            default:
-              return aNewest - bNewest;
-          }
-        });
-
-        // Re-append in sorted order
-        visibleCards.forEach((card) => propertyGrid.appendChild(card));
-        // Append hidden cards at the end (to preserve them)
-        propertyCards
-          .filter((c) => c.style.display === 'none')
-          .forEach((card) => propertyGrid.appendChild(card));
-      }
-
-      sortSelect.addEventListener('change', sortProperties);
-
-      // ============================================
-      // EVENT LISTENERS FOR FILTERS
-      // ============================================
-      searchBtn.addEventListener('click', applyFilters);
-      searchInput.addEventListener('keyup', (e) => {
-        if (e.key === 'Enter') applyFilters();
-      });
-      citySelect.addEventListener('change', applyFilters);
-      typeSelect.addEventListener('change', applyFilters);
-
-      allCheckboxes.forEach((cb) => {
-        cb.addEventListener('change', applyFilters);
-      });
-
-      priceRange.addEventListener('input', function () {
-        priceValue.textContent = formatPrice(parseInt(this.value));
-      });
-
-      priceRange.addEventListener('change', applyFilters);
-      areaRange.addEventListener('change', applyFilters);
-
-      // ============================================
-      // RESET FILTERS
-      // ============================================
-      resetFiltersBtn.addEventListener('click', function () {
-        // Reset search
-        searchInput.value = '';
-        citySelect.value = '';
-        typeSelect.value = '';
-
-        // Reset deal toggle
-        dealToggle.querySelectorAll('button').forEach((b) => b.classList.remove('active'));
-        dealToggle.querySelector('button[data-deal="all"]').classList.add('active');
-        currentDeal = 'all';
-
-        // Reset all checkboxes
-        allCheckboxes.forEach((cb) => (cb.checked = false));
-
-        // Reset sliders
-        priceRange.value = 100000;
-        priceValue.textContent = formatPrice(100000);
-        areaRange.value = 0;
-        areaValue.textContent = '۰';
-
-        // Apply
-        applyFilters();
-      });
-
-      // ============================================
-      // PAGINATION (DEMO ONLY)
-      // ============================================
-      document.querySelectorAll('.page-btn').forEach((btn) => {
-        btn.addEventListener('click', function () {
-          if (this.disabled || this.textContent.trim() === '...') return;
-          if (this.querySelector('i')) {
-            // Prev/next buttons — demo only
-            console.log('ناوبری صفحه (دمو)');
-            return;
-          }
-          document.querySelectorAll('.page-btn').forEach((b) => b.classList.remove('active'));
-          this.classList.add('active');
-        });
-      });
-
-      // ============================================
-      // INITIAL SETUP
-      // ============================================
-      priceValue.textContent = formatPrice(50000);
-      areaValue.textContent = '۱۰۰';
-      applyFilters();
-    })();
 
 
 

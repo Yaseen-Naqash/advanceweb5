@@ -39,10 +39,10 @@ class Property(models.Model):
     type = models.CharField(max_length=1, choices=TYPE, null=True, blank=True)
     deal_type = models.CharField(max_length=1, choices=DEAL_TYPE, null=True, blank=True)
     Attributes = models.ManyToManyField('Attribute')
-
-    created_at = models.DateTimeField(auto_add=True)
+    area = models.IntegerField(null=True, blank=True)
+    created_at = models.DateTimeField(auto_now=True)
     updated_at = models.DateTimeField(auto_now_add=True)
-    city = models.ForeignKey('City', null=True, blank=True)
+    city = models.ForeignKey('City', null=True, blank=True, on_delete=models.SET_NULL)
 
 
     def __str__(self):
