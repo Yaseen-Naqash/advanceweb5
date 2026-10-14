@@ -1,11 +1,17 @@
-<!DOCTYPE html>
-<html lang="fa" dir="rtl">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+{% extends "base.html" %}
+
+
+{% block title %}
+deals
+{% endblock %}
   <title>فهرست املاک | املاک آسمان</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
   <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+
+
+  {% block extra_css %}
+  
   <style>
     /* ---------- RESET & GLOBAL ---------- */
     * {
@@ -1004,29 +1010,10 @@
       }
     }
   </style>
-</head>
-<body>
+  {% endblock %}
+  {% block content %}
 
-  <!-- ================= HEADER ================= -->
-  <header>
-    <nav class="navbar">
-      <a href="#" class="logo">
-        <i class="fas fa-building"></i>
-        املاک آسمان <span>| مشاور املاک</span>
-      </a>
-      <ul class="nav-links">
-        <li><a href="#">خانه</a></li>
-        <li><a href="#" class="active">املاک</a></li>
-        <li><a href="#">مشاوران</a></li>
-        <li><a href="#">درباره ما</a></li>
-        <li><a href="#">تماس</a></li>
-      </ul>
-      <div class="nav-actions">
-        <a href="#" class="btn btn-outline"><i class="fas fa-user"></i> ورود</a>
-        <a href="#" class="btn btn-primary"><i class="fas fa-plus-circle"></i> ثبت ملک</a>
-      </div>
-    </nav>
-  </header>
+
 
   <main>
     <!-- ================= PAGE HEADER ================= -->
@@ -1429,5 +1416,4 @@
 
 
   </script>
-</body>
-</html>
+{% endblock %}

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}harchizi{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+
+    {% block extra_css %}
+    
+
+    {% endblock %}
+
+
+</head>
+<body>
+    
+
+    {% include "nav.html" %}
+
+    {% block nav %}
+
+    {% endblock %}
+
+    {% block content %}
+
+    <h1>محتوایی وجود ندارد</h1>
+
+    {% endblock %}
+    {% block footer %}
+
+    {% endblock %}
+
+    
+
+    {% block extra_js %}
+
+    {% endblock %}
+
+    <script src="{% static 'js/scripts.js' %}"></script>
+
+</body>
+</html>

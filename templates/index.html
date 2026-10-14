@@ -1,13 +1,16 @@
-<!DOCTYPE html>
-<html lang="fa" dir="rtl">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>املاک آسمان | مشاور املاک هوشمند در ایران</title>
+{% extends "base.html" %}
   <!-- Font Awesome 6 (free) -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  {% comment %} <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"> {% endcomment %}
   <!-- Google Font: Vazirmatn (Persian) -->
-  <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  {% comment %} <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet"> {% endcomment %}
+
+
+{% block title %}
+home
+
+{% endblock %}
+
+{% block extra_css %}
   <style>
     /* ---------- RESET & GLOBAL ---------- */
     * {
@@ -653,30 +656,11 @@
       to { opacity: 1; transform: translateY(0); }
     }
   </style>
-</head>
-<body>
 
+{% endblock %}
   <!-- ================= HEADER ================= -->
-  <header>
-    <nav class="navbar">
-      <div class="logo">
-        <i class="fas fa-building"></i>
-        املاک آسمان <span>| مشاور املاک</span>
-      </div>
-      <ul class="nav-links">
-        <li><a href="#">خانه</a></li>
-        <li><a href="#">خرید ملک</a></li>
-        <li><a href="#">اجاره</a></li>
-        <li><a href="#">مشاوران</a></li>
-        <li><a href="#">درباره ما</a></li>
-      </ul>
-      <div class="nav-actions">
-        <a href="#" class="btn btn-outline"><i class="fas fa-user"></i> ورود</a>
-        <a href="#" class="btn btn-primary"><i class="fas fa-plus-circle"></i> ثبت ملک</a>
-      </div>
-    </nav>
-  </header>
 
+  {% block content %}
   <main>
     <!-- ================= HERO ================= -->
     <section class="hero fade-in">
@@ -827,7 +811,6 @@
       <a href="#" class="btn btn-secondary"><i class="fas fa-headset"></i> تماس با مشاور</a>
     </div>
   </main>
-
   <!-- ================= FOOTER ================= -->
   <footer>
     <div class="footer-grid">
@@ -870,8 +853,12 @@
       <p>© ۱۴۰۴ املاک آسمان | تمامی حقوق محفوظ است.</p>
     </div>
   </footer>
-
   <!-- ================= SIMPLE JS (DEMO) ================= -->
+
+{% endblock %}
+
+
+{% block extra_js %}
   <script>
     (function() {
       // Smooth scroll for anchor links (just for demo)
@@ -908,5 +895,4 @@
       });
     })();
   </script>
-</body>
-</html>
+{% endblock %}
